@@ -17,6 +17,10 @@ initializeDatabase().catch(console.error);
 // Serve static files from React build
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+// Admin routes
+const adminRoutes = require('./routes/admin');
+app.use('/api/admin', adminRoutes);
+
 // API Routes
 app.get('/api/portfolio', async (req, res) => {
   try {
