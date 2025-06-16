@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -25,7 +24,7 @@ app.use('/api/admin', adminRoutes);
 app.get('/api/portfolio', async (req, res) => {
   try {
     const client = await pool.connect();
-    
+
     try {
       // Get hero info
       const heroResult = await client.query('SELECT * FROM hero_info ORDER BY id DESC LIMIT 1');
@@ -54,14 +53,18 @@ app.get('/api/portfolio', async (req, res) => {
           category: row.category,
           title: row.title,
           description: row.description,
-          technologies: typeof row.technologies === 'string' ? JSON.parse(row.technologies) : row.technologies
+          technologies: typeof row.technologies === 'string' ? 
+          (row.technologies.startsWith('[') ? JSON.parse(row.technologies) : row.technologies.split(',').map(t => t.trim())) 
+          : row.technologies
         })),
         projects: projectsResult.rows.map(row => ({
           id: row.id,
           category: row.category,
           title: row.title,
           description: row.description,
-          technologies: typeof row.technologies === 'string' ? JSON.parse(row.technologies) : row.technologies,
+          technologies: typeof row.technologies === 'string' ? 
+          (row.technologies.startsWith('[') ? JSON.parse(row.technologies) : row.technologies.split(',').map(t => t.trim())) 
+          : row.technologies,
           link: row.link,
           linkText: row.link_text
         })),
@@ -111,7 +114,9 @@ app.get('/api/projects', async (req, res) => {
         category: row.category,
         title: row.title,
         description: row.description,
-        technologies: typeof row.technologies === 'string' ? JSON.parse(row.technologies) : row.technologies,
+        technologies: typeof row.technologies === 'string' ? 
+          (row.technologies.startsWith('[') ? JSON.parse(row.technologies) : row.technologies.split(',').map(t => t.trim())) 
+          : row.technologies,
         link: row.link,
         linkText: row.link_text
       }));
