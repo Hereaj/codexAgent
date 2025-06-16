@@ -227,4 +227,118 @@ router.delete('/skills/:id', requireAuth, async (req, res) => {
   }
 });
 
+// CRUD operations for stats
+router.post('/stats', requireAuth, async (req, res) => {
+  try {
+    const { number, label, sortOrder } = req.body;
+    const client = await pool.connect();
+    try {
+      const result = await client.query(`
+        INSERT INTO hero_stats (number, label, sort_order)
+        VALUES ($1, $2, $3) RETURNING id
+      `, [number, label, sortOrder || 0]);
+      res.json({ success: true, id: result.rows[0].id });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to add stat' });
+  }
+});
+
+router.put('/stats/:id', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { number, label, sortOrder } = req.body;
+    const client = await pool.connect();
+    try {
+      await client.query(`
+        UPDATE hero_stats 
+        SET number = $1, label = $2, sort_order = $3
+        WHERE id = $4
+      `, [number, label, sortOrder || 0, id]);
+      res.json({ success: true });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to update stat' });
+  }
+});
+
+router.delete('/stats/:id', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const client = await pool.connect();
+    try {
+      await client.query('DELETE FROM hero_stats WHERE id = $1', [id]);
+      res.json({ success: true });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to delete stat' });
+  }
+});
+
+// CRUD operations for education
+router.post('/education', requireAuth, async (req, res) => {
+  try {
+    const { title, dateRange, description, sortOrder } = req.body;
+    const client = await pool.connect();
+    try {
+      const result = await client.query(`
+        INSERT INTO education (title, date_range, description, sort_order)
+        VALUES ($1, $2, $3, $4) RETURNING id
+      `, [title, dateRange, description, sortOrder || 0]);
+      res.json({ success: true, id: result.rows[0].id });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to add education' });
+  }
+});
+
+router.put('/education/:id', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, dateRange, description, sortOrder } = req.body;
+    const client = await pool.connect();
+    try {
+      await client.query(`
+        UPDATE education 
+        SET title = $1, date_range = $2, description = $3, sort_order = $4
+        WHERE id = $5
+      `, [title, dateRange, description, sortOrder || 0, id]);
+      res.json({ success: true });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to update education' });
+  }
+});
+
+router.delete('/education/:id', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const client = await pool.connect();
+    try {
+      await client.query('DELETE FROM education WHERE id = $1', [id]);
+      res.json({ success: true });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to delete education' });
+  }
+});
+
 module.exports = router;

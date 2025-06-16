@@ -199,6 +199,12 @@ const Admin = () => {
           About
         </button>
         <button 
+          className={activeTab === 'stats' ? 'active' : ''} 
+          onClick={() => setActiveTab('stats')}
+        >
+          Stats
+        </button>
+        <button 
           className={activeTab === 'projects' ? 'active' : ''} 
           onClick={() => setActiveTab('projects')}
         >
@@ -225,6 +231,9 @@ const Admin = () => {
         {activeTab === 'about' && (
           <AboutEditor about={data.about} onUpdate={updateAbout} />
         )}
+        {activeTab === 'stats' && (
+          <StatsEditor stats={data.stats} sessionId={sessionId} onRefresh={checkAuth} />
+        )}
         {activeTab === 'projects' && (
           <ProjectsEditor projects={data.projects} sessionId={sessionId} onRefresh={checkAuth} />
         )}
@@ -235,6 +244,158 @@ const Admin = () => {
           <EducationEditor education={data.education} sessionId={sessionId} onRefresh={checkAuth} />
         )}
       </main>
+    </div>
+  );
+};
+
+// Stats Editor Component
+const StatsEditor = ({ stats, sessionId, onRefresh }) => {
+  const [editingStat, setEditingStat] = useState(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const deleteStat = async (id) => {
+    if (!confirm('Are you sure you want to delete this stat?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/stats/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-Session-Id': sessionId
+        }
+      });
+
+      if (response.ok) {
+        onRefresh();
+        alert('Stat deleted successfully!');
+      } else {
+        alert('Failed to delete stat');
+      }
+    } catch (error) {
+      alert('Error deleting stat');
+    }
+  };
+
+  return (
+    <div className="editor-section">
+      <div className="section-header">
+        <h2>Hero Stats</h2>
+        <button onClick={() => setShowAddForm(true)} className="add-btn">Add New Stat</button>
+      </div>
+
+      {showAddForm && (
+        <StatForm
+          sessionId={sessionId}
+          onSuccess={() => {
+            setShowAddForm(false);
+            onRefresh();
+          }}
+          onCancel={() => setShowAddForm(false)}
+        />
+      )}
+
+      <div className="items-list">
+        {stats.map((stat) => (
+          <div key={stat.id} className="item-card">
+            <div className="item-header">
+              <h3>{stat.number} - {stat.label}</h3>
+              <div className="item-actions">
+                <button onClick={() => setEditingStat(stat)}>Edit</button>
+                <button onClick={() => deleteStat(stat.id)} className="delete-btn">Delete</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {editingStat && (
+        <StatForm
+          stat={editingStat}
+          sessionId={sessionId}
+          onSuccess={() => {
+            setEditingStat(null);
+            onRefresh();
+          }}
+          onCancel={() => setEditingStat(null)}
+        />
+      )}
+    </div>
+  );
+};
+
+// Stat Form Component
+const StatForm = ({ stat, sessionId, onSuccess, onCancel }) => {
+  const [formData, setFormData] = useState({
+    number: stat?.number || '',
+    label: stat?.label || '',
+    sortOrder: stat?.sort_order || 0
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const url = stat ? `/api/admin/stats/${stat.id}` : '/api/admin/stats';
+      const method = stat ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Session-Id': sessionId
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        onSuccess();
+        alert(`Stat ${stat ? 'updated' : 'added'} successfully!`);
+      } else {
+        alert(`Failed to ${stat ? 'update' : 'add'} stat`);
+      }
+    } catch (error) {
+      alert(`Error ${stat ? 'updating' : 'adding'} stat`);
+    }
+  };
+
+  return (
+    <div className="form-overlay">
+      <div className="form-modal">
+        <h3>{stat ? 'Edit Stat' : 'Add New Stat'}</h3>
+        <form onSubmit={handleSubmit} className="admin-form">
+          <div className="form-group">
+            <label>Number:</label>
+            <input
+              type="text"
+              value={formData.number}
+              onChange={(e) => setFormData({...formData, number: e.target.value})}
+              placeholder="e.g., 15+"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Label:</label>
+            <input
+              type="text"
+              value={formData.label}
+              onChange={(e) => setFormData({...formData, label: e.target.value})}
+              placeholder="e.g., Projects Completed"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Sort Order:</label>
+            <input
+              type="number"
+              value={formData.sortOrder}
+              onChange={(e) => setFormData({...formData, sortOrder: parseInt(e.target.value)})}
+            />
+          </div>
+          <div className="form-actions">
+            <button type="submit">{stat ? 'Update' : 'Add'} Stat</button>
+            <button type="button" onClick={onCancel}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
@@ -283,14 +444,7 @@ const HeroEditor = ({ hero, stats, onUpdate }) => {
         <button type="submit">Update Hero</button>
       </form>
 
-      <div className="stats-display">
-        <h3>Current Stats</h3>
-        {stats.map((stat, index) => (
-          <div key={index} className="stat-item">
-            <strong>{stat.number}</strong> - {stat.label}
-          </div>
-        ))}
-      </div>
+      
     </div>
   );
 };
@@ -379,7 +533,7 @@ const ProjectsEditor = ({ projects, sessionId, onRefresh }) => {
             </div>
             <p><strong>Category:</strong> {project.category}</p>
             <p><strong>Description:</strong> {project.description}</p>
-            <p><strong>Technologies:</strong> {JSON.parse(project.technologies).join(', ')}</p>
+            <p><strong>Technologies:</strong> {Array.isArray(project.technologies) ? project.technologies.join(', ') : project.technologies}</p>
             {project.link && <p><strong>Link:</strong> <a href={project.link} target="_blank" rel="noopener noreferrer">{project.link}</a></p>}
             <p><strong>Current Study:</strong> {project.is_current_study ? 'Yes' : 'No'}</p>
           </div>
@@ -407,7 +561,7 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
     category: project?.category || '',
     title: project?.title || '',
     description: project?.description || '',
-    technologies: project?.technologies ? JSON.parse(project.technologies).join(', ') : '',
+    technologies: project?.technologies ? (Array.isArray(project.technologies) ? project.technologies.join(', ') : project.technologies) : '',
     link: project?.link || '',
     linkText: project?.link_text || '',
     isCurrentStudy: project?.is_current_study || false,
@@ -532,37 +686,331 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
   );
 };
 
-// Skills Editor (simplified for space)
+// Skills Editor with full CRUD
 const SkillsEditor = ({ skills, sessionId, onRefresh }) => {
+  const [editingSkill, setEditingSkill] = useState(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const deleteSkill = async (id) => {
+    if (!confirm('Are you sure you want to delete this skill?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/skills/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-Session-Id': sessionId
+        }
+      });
+
+      if (response.ok) {
+        onRefresh();
+        alert('Skill deleted successfully!');
+      } else {
+        alert('Failed to delete skill');
+      }
+    } catch (error) {
+      alert('Error deleting skill');
+    }
+  };
+
   return (
     <div className="editor-section">
-      <h2>Skills</h2>
+      <div className="section-header">
+        <h2>Skills</h2>
+        <button onClick={() => setShowAddForm(true)} className="add-btn">Add New Skill</button>
+      </div>
+
+      {showAddForm && (
+        <SkillForm
+          sessionId={sessionId}
+          onSuccess={() => {
+            setShowAddForm(false);
+            onRefresh();
+          }}
+          onCancel={() => setShowAddForm(false)}
+        />
+      )}
+
       <div className="items-list">
         {skills.map((skill) => (
           <div key={skill.id} className="item-card">
-            <h3>{skill.name}</h3>
+            <div className="item-header">
+              <h3>{skill.name}</h3>
+              <div className="item-actions">
+                <button onClick={() => setEditingSkill(skill)}>Edit</button>
+                <button onClick={() => deleteSkill(skill.id)} className="delete-btn">Delete</button>
+              </div>
+            </div>
             <p><strong>Category:</strong> {skill.category}</p>
             <p><strong>Level:</strong> {skill.level}</p>
           </div>
         ))}
       </div>
+
+      {editingSkill && (
+        <SkillForm
+          skill={editingSkill}
+          sessionId={sessionId}
+          onSuccess={() => {
+            setEditingSkill(null);
+            onRefresh();
+          }}
+          onCancel={() => setEditingSkill(null)}
+        />
+      )}
     </div>
   );
 };
 
-// Education Editor (simplified for space)
+// Skill Form Component
+const SkillForm = ({ skill, sessionId, onSuccess, onCancel }) => {
+  const [formData, setFormData] = useState({
+    category: skill?.category || '',
+    name: skill?.name || '',
+    level: skill?.level || '',
+    sortOrder: skill?.sort_order || 0
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const url = skill ? `/api/admin/skills/${skill.id}` : '/api/admin/skills';
+      const method = skill ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Session-Id': sessionId
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        onSuccess();
+        alert(`Skill ${skill ? 'updated' : 'added'} successfully!`);
+      } else {
+        alert(`Failed to ${skill ? 'update' : 'add'} skill`);
+      }
+    } catch (error) {
+      alert(`Error ${skill ? 'updating' : 'adding'} skill`);
+    }
+  };
+
+  return (
+    <div className="form-overlay">
+      <div className="form-modal">
+        <h3>{skill ? 'Edit Skill' : 'Add New Skill'}</h3>
+        <form onSubmit={handleSubmit} className="admin-form">
+          <div className="form-group">
+            <label>Category:</label>
+            <input
+              type="text"
+              value={formData.category}
+              onChange={(e) => setFormData({...formData, category: e.target.value})}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Name:</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Level:</label>
+            <select
+              value={formData.level}
+              onChange={(e) => setFormData({...formData, level: e.target.value})}
+              required
+            >
+              <option value="">Select Level</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Proficient">Proficient</option>
+              <option value="Advanced">Advanced</option>
+              <option value="Expert">Expert</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Sort Order:</label>
+            <input
+              type="number"
+              value={formData.sortOrder}
+              onChange={(e) => setFormData({...formData, sortOrder: parseInt(e.target.value)})}
+            />
+          </div>
+          <div className="form-actions">
+            <button type="submit">{skill ? 'Update' : 'Add'} Skill</button>
+            <button type="button" onClick={onCancel}>Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// Education Editor with full CRUD
 const EducationEditor = ({ education, sessionId, onRefresh }) => {
+  const [editingEducation, setEditingEducation] = useState(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+
+  const deleteEducation = async (id) => {
+    if (!confirm('Are you sure you want to delete this education entry?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/education/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-Session-Id': sessionId
+        }
+      });
+
+      if (response.ok) {
+        onRefresh();
+        alert('Education entry deleted successfully!');
+      } else {
+        alert('Failed to delete education entry');
+      }
+    } catch (error) {
+      alert('Error deleting education entry');
+    }
+  };
+
   return (
     <div className="editor-section">
-      <h2>Education</h2>
+      <div className="section-header">
+        <h2>Education</h2>
+        <button onClick={() => setShowAddForm(true)} className="add-btn">Add New Education</button>
+      </div>
+
+      {showAddForm && (
+        <EducationForm
+          sessionId={sessionId}
+          onSuccess={() => {
+            setShowAddForm(false);
+            onRefresh();
+          }}
+          onCancel={() => setShowAddForm(false)}
+        />
+      )}
+
       <div className="items-list">
         {education.map((edu) => (
           <div key={edu.id} className="item-card">
-            <h3>{edu.title}</h3>
+            <div className="item-header">
+              <h3>{edu.title}</h3>
+              <div className="item-actions">
+                <button onClick={() => setEditingEducation(edu)}>Edit</button>
+                <button onClick={() => deleteEducation(edu.id)} className="delete-btn">Delete</button>
+              </div>
+            </div>
             <p><strong>Date:</strong> {edu.date_range}</p>
             <p><strong>Description:</strong> {edu.description}</p>
           </div>
         ))}
+      </div>
+
+      {editingEducation && (
+        <EducationForm
+          education={editingEducation}
+          sessionId={sessionId}
+          onSuccess={() => {
+            setEditingEducation(null);
+            onRefresh();
+          }}
+          onCancel={() => setEditingEducation(null)}
+        />
+      )}
+    </div>
+  );
+};
+
+// Education Form Component
+const EducationForm = ({ education, sessionId, onSuccess, onCancel }) => {
+  const [formData, setFormData] = useState({
+    title: education?.title || '',
+    dateRange: education?.date_range || '',
+    description: education?.description || '',
+    sortOrder: education?.sort_order || 0
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const url = education ? `/api/admin/education/${education.id}` : '/api/admin/education';
+      const method = education ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Session-Id': sessionId
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        onSuccess();
+        alert(`Education ${education ? 'updated' : 'added'} successfully!`);
+      } else {
+        alert(`Failed to ${education ? 'update' : 'add'} education`);
+      }
+    } catch (error) {
+      alert(`Error ${education ? 'updating' : 'adding'} education`);
+    }
+  };
+
+  return (
+    <div className="form-overlay">
+      <div className="form-modal">
+        <h3>{education ? 'Edit Education' : 'Add New Education'}</h3>
+        <form onSubmit={handleSubmit} className="admin-form">
+          <div className="form-group">
+            <label>Title:</label>
+            <input
+              type="text"
+              value={formData.title}
+              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Date Range:</label>
+            <input
+              type="text"
+              value={formData.dateRange}
+              onChange={(e) => setFormData({...formData, dateRange: e.target.value})}
+              placeholder="e.g., 2023 — 2025 (Expected)"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Description:</label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              rows="4"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Sort Order:</label>
+            <input
+              type="number"
+              value={formData.sortOrder}
+              onChange={(e) => setFormData({...formData, sortOrder: parseInt(e.target.value)})}
+            />
+          </div>
+          <div className="form-actions">
+            <button type="submit">{education ? 'Update' : 'Add'} Education</button>
+            <button type="button" onClick={onCancel}>Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
   );
