@@ -54,14 +54,14 @@ app.get('/api/portfolio', async (req, res) => {
           category: row.category,
           title: row.title,
           description: row.description,
-          technologies: row.technologies
+          technologies: typeof row.technologies === 'string' ? JSON.parse(row.technologies) : row.technologies
         })),
         projects: projectsResult.rows.map(row => ({
           id: row.id,
           category: row.category,
           title: row.title,
           description: row.description,
-          technologies: row.technologies,
+          technologies: typeof row.technologies === 'string' ? JSON.parse(row.technologies) : row.technologies,
           link: row.link,
           linkText: row.link_text
         })),
@@ -111,7 +111,7 @@ app.get('/api/projects', async (req, res) => {
         category: row.category,
         title: row.title,
         description: row.description,
-        technologies: row.technologies,
+        technologies: typeof row.technologies === 'string' ? JSON.parse(row.technologies) : row.technologies,
         link: row.link,
         linkText: row.link_text
       }));

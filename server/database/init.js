@@ -1,4 +1,3 @@
-
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -8,7 +7,7 @@ const pool = new Pool({
 
 async function initializeDatabase() {
   const client = await pool.connect();
-  
+
   try {
     // Create tables
     await client.query(`
@@ -93,7 +92,7 @@ async function initializeDatabase() {
     `);
 
     console.log('Database tables created successfully!');
-    
+
     // Check if data already exists
     const heroCheck = await client.query('SELECT COUNT(*) FROM hero_info');
     if (parseInt(heroCheck.rows[0].count) === 0) {
@@ -125,7 +124,7 @@ async function seedDatabase(client) {
     ['10+', 'CSE Courses', 3],
     ['2+', 'Years Experience', 4]
   ];
-  
+
   for (const [number, label, order] of stats) {
     await client.query(`
       INSERT INTO hero_stats (number, label, sort_order) VALUES ($1, $2, $3)
@@ -145,12 +144,6 @@ async function seedDatabase(client) {
     ['CSE 331', 'Software Engineering', 'Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.', '["TypeScript", "React", "Node.js", "Testing"]', true, 4]
   ];
 
-  for (const [category, title, description, technologies, isCurrentStudy, order] of currentStudies) {
-    await client.query(`
-      INSERT INTO projects (category, title, description, technologies, is_current_study, sort_order) VALUES ($1, $2, $3, $4, $5, $6)
-    `, [category, title, description, technologies, isCurrentStudy, order]);
-  }
-
   // Insert projects
   const projects = [
     ['ML/DL/NLP', 'Wizardry GPT', 'A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.', '["Python", "PyTorch", "Transformers", "Hugging Face"]', 'https://github.com/Hereaj/wizardryGPT', 'View Project', false, 1],
@@ -161,11 +154,20 @@ async function seedDatabase(client) {
     ['Database Management', 'Flight Manager', 'Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.', '["SQL", "Database Design", "Java", "JDBC"]', 'https://github.com/Hereaj/flightManager', 'View Project', false, 6]
   ];
 
-  for (const [category, title, description, technologies, link, linkText, isCurrentStudy, order] of projects) {
-    await client.query(`
-      INSERT INTO projects (category, title, description, technologies, link, link_text, is_current_study, sort_order) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-    `, [category, title, description, technologies, link, linkText, isCurrentStudy, order]);
-  }
+
+  await client.query(`
+          INSERT INTO projects (category, title, description, technologies, link, link_text, is_current_study, sort_order) VALUES
+          ('CSE 447', 'Natural Language Processing', 'Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.', '["Python","PyTorch","Transformers","NLTK"]', '', '', true, 1),
+          ('CSE 446 & CSE 493G1', 'Machine Learning & Deep Learning', 'Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.', '["Python","TensorFlow","Scikit-learn","NumPy"]', '', '', true, 2),
+          ('CSE 444', 'Database Systems', 'Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.', '["Java","SQL","B+ Trees","Query Optimization"]', '', '', true, 3),
+          ('CSE 331', 'Software Engineering', 'Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.', '["TypeScript","React","Node.js","Testing"]', '', '', true, 4),
+          ('ML/DL/NLP', 'Wizardry GPT', 'A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.', '["Python","PyTorch","Transformers","Hugging Face"]', 'https://github.com/Hereaj/wizardryGPT', 'View Project', false, 1),
+          ('ML/DL/NLP', 'LipNet with Self-Attention', 'Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.', '["Python","TensorFlow","Computer Vision","Attention Mechanisms"]', 'https://www.hereaj.com/static/images/projects/DL_project_Final_ppt.pdf', 'View Research', false, 2),
+          ('Database Management', 'Simple DB', 'A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.', '["Java","B+ Trees","SQL Parser","Buffer Management"]', 'https://github.com/Hereaj/simpleDB', 'View Project', false, 3),
+          ('Web Applications', 'Mapping Anxiety', 'Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.', '["JavaScript","D3.js","Data Visualization","Statistical Analysis"]', 'https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/', 'View Live Demo', false, 4),
+          ('ML/DL/NLP', 'Self-Driving Car', 'Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.', '["Python","OpenCV","CNN","Computer Vision"]', 'https://github.com/Hereaj/selfdriving', 'View Project', false, 5),
+          ('Database Management', 'Flight Manager', 'Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.', '["SQL","Database Design","Java","JDBC"]', 'https://github.com/Hereaj/flightManager', 'View Project', false, 6)
+        `);
 
   // Insert skills
   const skillsData = [
