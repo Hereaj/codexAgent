@@ -154,19 +154,26 @@ async function seedDatabase(client) {
   ];
 
 
-  await client.query(`
-          INSERT INTO projects (category, title, description, link, link_text, is_current_study, sort_order) VALUES
-          ('CSE 447', 'Natural Language Processing', 'Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.', '', '', true, 1),
-          ('CSE 446 & CSE 493G1', 'Machine Learning & Deep Learning', 'Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.', '', '', true, 2),
-          ('CSE 444', 'Database Systems', 'Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.', '', '', true, 3),
-          ('CSE 331', 'Software Engineering', 'Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.', '', '', true, 4),
-          ('ML/DL/NLP', 'Wizardry GPT', 'A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.', 'https://github.com/Hereaj/wizardryGPT', 'View Project', false, 1),
-          ('ML/DL/NLP', 'LipNet with Self-Attention', 'Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.', 'https://www.hereaj.com/static/images/projects/DL_project_Final_ppt.pdf', 'View Research', false, 2),
-          ('Database Management', 'Simple DB', 'A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.', 'https://github.com/Hereaj/simpleDB', 'View Project', false, 3),
-          ('Web Applications', 'Mapping Anxiety', 'Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.', 'https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/', 'View Live Demo', false, 4),
-          ('ML/DL/NLP', 'Self-Driving Car', 'Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.', 'https://github.com/Hereaj/selfdriving', 'View Project', false, 5),
-          ('Database Management', 'Flight Manager', 'Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.', 'https://github.com/Hereaj/flightManager', 'View Project', false, 6)
-        `);
+  // Insert projects one by one to avoid SQL syntax issues
+  const projectsData = [
+    ['CSE 447', 'Natural Language Processing', 'Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.', '', '', true, 1],
+    ['CSE 446 & CSE 493G1', 'Machine Learning & Deep Learning', 'Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.', '', '', true, 2],
+    ['CSE 444', 'Database Systems', 'Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.', '', '', true, 3],
+    ['CSE 331', 'Software Engineering', 'Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.', '', '', true, 4],
+    ['ML/DL/NLP', 'Wizardry GPT', 'A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.', 'https://github.com/Hereaj/wizardryGPT', 'View Project', false, 1],
+    ['ML/DL/NLP', 'LipNet with Self-Attention', 'Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.', 'https://www.hereaj.com/static/images/projects/DL_project_Final_ppt.pdf', 'View Research', false, 2],
+    ['Database Management', 'Simple DB', 'A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.', 'https://github.com/Hereaj/simpleDB', 'View Project', false, 3],
+    ['Web Applications', 'Mapping Anxiety', 'Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.', 'https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/', 'View Live Demo', false, 4],
+    ['ML/DL/NLP', 'Self-Driving Car', 'Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.', 'https://github.com/Hereaj/selfdriving', 'View Project', false, 5],
+    ['Database Management', 'Flight Manager', 'Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.', 'https://github.com/Hereaj/flightManager', 'View Project', false, 6]
+  ];
+
+  for (const [category, title, description, link, linkText, isCurrentStudy, sortOrder] of projectsData) {
+    await client.query(`
+      INSERT INTO projects (category, title, description, link, link_text, is_current_study, sort_order)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `, [category, title, description, link, linkText, isCurrentStudy, sortOrder]);
+  }
 
   // Insert skills
   const skillsData = [
