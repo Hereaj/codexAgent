@@ -102,11 +102,13 @@ const Admin = () => {
         body: JSON.stringify(heroData)
       });
 
-      if (response.ok) {
+      const result = await response.json();
+      
+      if (response.ok && result.success) {
         await checkAuth(); // Refresh data
-        alert('Hero info updated successfully!');
+        alert(result.message || 'Hero info updated successfully!');
       } else {
-        alert('Failed to update hero info');
+        alert(result.error || 'Failed to update hero info');
       }
     } catch (error) {
       alert('Error updating hero info');
@@ -124,11 +126,13 @@ const Admin = () => {
         body: JSON.stringify(aboutData)
       });
 
-      if (response.ok) {
+      const result = await response.json();
+      
+      if (response.ok && result.success) {
         await checkAuth(); // Refresh data
-        alert('About info updated successfully!');
+        alert(result.message || 'About info updated successfully!');
       } else {
-        alert('Failed to update about info');
+        alert(result.error || 'Failed to update about info');
       }
     } catch (error) {
       alert('Error updating about info');

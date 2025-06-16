@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { pool } = require('../database/init');
 const router = express.Router();
@@ -20,34 +19,34 @@ const requireAuth = (req, res, next) => {
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   const clientIP = req.ip || req.connection.remoteAddress;
-  
+
   // Basic rate limiting - max 5 attempts per IP per 15 minutes
   const attempts = loginAttempts.get(clientIP) || { count: 0, lastAttempt: Date.now() };
   if (attempts.count >= 5 && Date.now() - attempts.lastAttempt < 900000) {
     return res.status(429).json({ error: 'Too many login attempts. Please try again later.' });
   }
-  
+
   // Use environment variables for credentials
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-  
+
   if (username === adminUsername && password === adminPassword) {
     // Reset attempts on successful login
     loginAttempts.delete(clientIP);
     // Generate more secure session ID
     const sessionId = require('crypto').randomBytes(32).toString('hex');
     sessions.set(sessionId, { username, loginTime: new Date() });
-    
+
     // Auto-expire sessions after 30 minutes for security
     setTimeout(() => sessions.delete(sessionId), 1800000);
-    
+
     res.json({ success: true, sessionId });
   } else {
     // Track failed attempts
     attempts.count++;
     attempts.lastAttempt = Date.now();
     loginAttempts.set(clientIP, attempts);
-    
+
     res.status(401).json({ error: 'Invalid credentials' });
   }
 });
@@ -102,7 +101,7 @@ router.put('/hero', requireAuth, async (req, res) => {
         UPDATE hero_info SET name = $1, title = $2, description = $3, updated_at = CURRENT_TIMESTAMP
         WHERE id = (SELECT id FROM hero_info ORDER BY id DESC LIMIT 1)
       `, [name, title, description]);
-      res.json({ success: true });
+      res.json({ success: true, message: 'Hero info updated successfully' });
     } finally {
       client.release();
     }
@@ -122,7 +121,7 @@ router.put('/about', requireAuth, async (req, res) => {
         UPDATE about_info SET content = $1, updated_at = CURRENT_TIMESTAMP
         WHERE id = (SELECT id FROM about_info ORDER BY id DESC LIMIT 1)
       `, [content]);
-      res.json({ success: true });
+      res.json({ success: true, message: 'About info updated successfully' });
     } finally {
       client.release();
     }
@@ -156,7 +155,7 @@ router.put('/projects/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { category, title, description, link, linkText, isCurrentStudy, sortOrder } = req.body;
-    
+
     // Validate required fields
     if (!category || !title || !description) {
       return res.status(400).json({ 
@@ -173,14 +172,14 @@ router.put('/projects/:id', requireAuth, async (req, res) => {
         WHERE id = $8
         RETURNING id
       `, [category, title, description, link, linkText, isCurrentStudy || false, sortOrder || 0, id]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({ 
           error: 'Project not found',
           details: `No project found with ID ${id}`
         });
       }
-      
+
       res.json({ success: true, message: 'Project updated successfully' });
     } finally {
       client.release();
@@ -234,7 +233,7 @@ router.put('/skills/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { category, name, level, sortOrder } = req.body;
-    
+
     // Validate required fields
     if (!category || !name || !level) {
       return res.status(400).json({ 
@@ -251,14 +250,14 @@ router.put('/skills/:id', requireAuth, async (req, res) => {
         WHERE id = $5
         RETURNING id
       `, [category, name, level, sortOrder || 0, id]);
-      
+
       if (result.rows.length === 0) {
         return res.status(404).json({ 
           error: 'Skill not found',
           details: `No skill found with ID ${id}`
         });
       }
-      
+
       res.json({ success: true, message: 'Skill updated successfully' });
     } finally {
       client.release();
