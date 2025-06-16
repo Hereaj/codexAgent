@@ -135,13 +135,13 @@ router.put('/about', requireAuth, async (req, res) => {
 // CRUD operations for projects
 router.post('/projects', requireAuth, async (req, res) => {
   try {
-    const { category, title, description, technologies, link, linkText, isCurrentStudy, sortOrder } = req.body;
+    const { category, title, description, link, linkText, isCurrentStudy, sortOrder } = req.body;
     const client = await pool.connect();
     try {
       const result = await client.query(`
-        INSERT INTO projects (category, title, description, technologies, link, link_text, is_current_study, sort_order)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id
-      `, [category, title, description, JSON.stringify(technologies), link, linkText, isCurrentStudy || false, sortOrder || 0]);
+        INSERT INTO projects (category, title, description, link, link_text, is_current_study, sort_order)
+        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id
+      `, [category, title, description, link, linkText, isCurrentStudy || false, sortOrder || 0]);
       res.json({ success: true, id: result.rows[0].id });
     } finally {
       client.release();
@@ -155,7 +155,7 @@ router.post('/projects', requireAuth, async (req, res) => {
 router.put('/projects/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { category, title, description, technologies, link, linkText, isCurrentStudy, sortOrder } = req.body;
+    const { category, title, description, link, linkText, isCurrentStudy, sortOrder } = req.body;
     
     // Validate required fields
     if (!category || !title || !description) {
@@ -165,22 +165,14 @@ router.put('/projects/:id', requireAuth, async (req, res) => {
       });
     }
 
-    // Validate technologies format
-    if (!Array.isArray(technologies)) {
-      return res.status(400).json({ 
-        error: 'Invalid technologies format',
-        details: 'Technologies must be an array'
-      });
-    }
-
     const client = await pool.connect();
     try {
       const result = await client.query(`
         UPDATE projects 
-        SET category = $1, title = $2, description = $3, technologies = $4, link = $5, link_text = $6, is_current_study = $7, sort_order = $8, updated_at = CURRENT_TIMESTAMP
-        WHERE id = $9
+        SET category = $1, title = $2, description = $3, link = $4, link_text = $5, is_current_study = $6, sort_order = $7, updated_at = CURRENT_TIMESTAMP
+        WHERE id = $8
         RETURNING id
-      `, [category, title, description, JSON.stringify(technologies), link, linkText, isCurrentStudy || false, sortOrder || 0, id]);
+      `, [category, title, description, link, linkText, isCurrentStudy || false, sortOrder || 0, id]);
       
       if (result.rows.length === 0) {
         return res.status(404).json({ 

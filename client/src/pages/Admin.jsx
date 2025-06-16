@@ -529,7 +529,6 @@ const ProjectsEditor = ({ projects, sessionId, onRefresh }) => {
             </div>
             <p><strong>Category:</strong> {project.category}</p>
             <p><strong>Description:</strong> {project.description}</p>
-            <p><strong>Technologies:</strong> {Array.isArray(project.technologies) ? project.technologies.join(', ') : project.technologies}</p>
             {project.link && <p><strong>Link:</strong> <a href={project.link} target="_blank" rel="noopener noreferrer">{project.link}</a></p>}
             <p><strong>Current Study:</strong> {project.is_current_study ? 'Yes' : 'No'}</p>
           </div>
@@ -557,7 +556,6 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
     category: project?.category || '',
     title: project?.title || '',
     description: project?.description || '',
-    technologies: project?.technologies ? (Array.isArray(project.technologies) ? project.technologies : project.technologies.split(',').map(t => t.trim())) : [''],
     link: project?.link || '',
     linkText: project?.link_text || '',
     isCurrentStudy: project?.is_current_study || false,
@@ -573,8 +571,7 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
     setError('');
 
     const payload = {
-      ...formData,
-      technologies: formData.technologies.filter(tech => tech.trim() !== '')
+      ...formData
     };
 
     try {
@@ -636,46 +633,7 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
               required
             />
           </div>
-          <div className="form-group">
-            <label>Technologies:</label>
-            <div className="technologies-list">
-              {formData.technologies.map((tech, index) => (
-                <div key={index} className="tech-input-group">
-                  <input
-                    type="text"
-                    value={tech}
-                    onChange={(e) => {
-                      const newTechs = [...formData.technologies];
-                      newTechs[index] = e.target.value;
-                      setFormData({...formData, technologies: newTechs});
-                    }}
-                    placeholder="Enter technology"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const newTechs = formData.technologies.filter((_, i) => i !== index);
-                      setFormData({...formData, technologies: newTechs});
-                    }}
-                    className="remove-tech-btn"
-                    disabled={formData.technologies.length === 1}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => {
-                  setFormData({...formData, technologies: [...formData.technologies, '']});
-                }}
-                className="add-tech-btn"
-              >
-                Add Technology
-              </button>
-            </div>
-          </div>
+          
           <div className="form-group">
             <label>Link:</label>
             <input
