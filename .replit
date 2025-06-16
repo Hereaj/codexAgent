@@ -6,3 +6,24 @@ channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "run"]
+
+[workflows]
+runButton = "Run HTML Server"
+
+[[workflows.workflow]]
+name = "Run HTML Server"
+author = 41296124
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd . && python -m http.server 5000 --bind 0.0.0.0"
+
+[[workflows.workflow]]
+name = "Serve HTML"
+author = 41296124
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx http-server . -p 5000 -a 0.0.0.0"
