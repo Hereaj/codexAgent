@@ -5,6 +5,7 @@ const router = express.Router();
 
 // Simple session store (in production, use proper session management)
 const sessions = new Map();
+const loginAttempts = new Map();
 
 // Middleware to check if user is authenticated
 const requireAuth = (req, res, next) => {
@@ -18,17 +19,35 @@ const requireAuth = (req, res, next) => {
 // Login endpoint
 router.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  const clientIP = req.ip || req.connection.remoteAddress;
   
-  // Simple hardcoded credentials (in production, use proper auth)
-  if (username === 'admin' && password === 'admin123') {
-    const sessionId = Date.now().toString() + Math.random().toString(36);
+  // Basic rate limiting - max 5 attempts per IP per 15 minutes
+  const attempts = loginAttempts.get(clientIP) || { count: 0, lastAttempt: Date.now() };
+  if (attempts.count >= 5 && Date.now() - attempts.lastAttempt < 900000) {
+    return res.status(429).json({ error: 'Too many login attempts. Please try again later.' });
+  }
+  
+  // Use environment variables for credentials
+  const adminUsername = process.env.ADMIN_USERNAME || 'admin';
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  
+  if (username === adminUsername && password === adminPassword) {
+    // Reset attempts on successful login
+    loginAttempts.delete(clientIP);
+    // Generate more secure session ID
+    const sessionId = require('crypto').randomBytes(32).toString('hex');
     sessions.set(sessionId, { username, loginTime: new Date() });
     
-    // Auto-expire sessions after 1 hour
-    setTimeout(() => sessions.delete(sessionId), 3600000);
+    // Auto-expire sessions after 30 minutes for security
+    setTimeout(() => sessions.delete(sessionId), 1800000);
     
     res.json({ success: true, sessionId });
   } else {
+    // Track failed attempts
+    attempts.count++;
+    attempts.lastAttempt = Date.now();
+    loginAttempts.set(clientIP, attempts);
+    
     res.status(401).json({ error: 'Invalid credentials' });
   }
 });

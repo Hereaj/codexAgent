@@ -164,11 +164,7 @@ const Admin = () => {
               {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
-          <div className="login-hint">
-            <p>Default credentials:</p>
-            <p>Username: admin</p>
-            <p>Password: admin123</p>
-          </div>
+          
         </div>
       </div>
     );
