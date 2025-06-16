@@ -36,3 +36,7 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm run install:all && npm run build && npm start"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
