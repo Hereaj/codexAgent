@@ -1,169 +1,694 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jaehyeon Ahn Portfolio</title>
+  <title>Jaehyeon Ahn - UW CSE Student & Data Science Enthusiast</title>
   <link rel="stylesheet" href="https://www.hereaj.com/static/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { margin: 0; }
-    .content { max-width: 1000px; margin: auto; }
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #3b82f6;
+      --text-primary: #1f2937;
+      --text-secondary: #6b7280;
+      --background-light: #f8fafc;
+      --border-color: #e5e7eb;
+      --success-color: #10b981;
+      --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body { 
+      margin: 0; 
+      background: var(--background-light);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+    
+    .content { 
+      max-width: 1200px; 
+      margin: auto; 
+      padding: 20px;
+    }
+    
+    .hero-section {
+      background: var(--gradient-bg);
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+      margin-bottom: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .hero-title {
+      font-size: 3.5em;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero-subtitle {
+      font-size: 1.3em;
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: 700;
+      color: var(--primary-color);
+      display: block;
+    }
+    
+    .stat-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin: 60px 0 40px 0;
+    }
+    
+    .section-title {
+      font-size: 2.5em;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+    }
+    
+    .section-subtitle {
+      font-size: 1.1em;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+    
+    .project-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+    
+    .project-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    }
+    
+    .project-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: var(--gradient-bg);
+    }
+    
+    .project-content {
+      padding: 25px;
+    }
+    
+    .project-title {
+      font-size: 1.4em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .project-category {
+      display: inline-block;
+      background: var(--primary-color);
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+    
+    .project-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .tech-tag {
+      background: var(--background-light);
+      border: 1px solid var(--border-color);
+      padding: 4px 10px;
+      border-radius: 15px;
+      font-size: 0.8em;
+      color: var(--text-secondary);
+    }
+    
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .project-link:hover {
+      color: var(--secondary-color);
+    }
+    
+    .skills-section {
+      background: white;
+      padding: 60px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin: 60px 0;
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+    
+    .skill-category h3 {
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-size: 1.3em;
+    }
+    
+    .skill-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .skill-item:last-child {
+      border-bottom: none;
+    }
+    
+    .skill-name {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    
+    .skill-level {
+      background: var(--primary-color);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 500;
+    }
+    
+    .contact-section {
+      background: var(--gradient-bg);
+      color: white;
+      padding: 60px;
+      border-radius: 20px;
+      text-align: center;
+      margin: 60px 0;
+    }
+    
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .contact-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+    
+    .timeline {
+      position: relative;
+      margin: 40px 0;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 30px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--primary-color);
+      border-radius: 2px;
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 40px;
+      padding-left: 80px;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 0 0 3px var(--primary-color);
+    }
+    
+    .timeline-content {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .timeline-date {
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 0.9em;
+      margin-bottom: 8px;
+    }
+    
+    .timeline-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+    
+    .timeline-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.5em; }
+      .section-title { font-size: 2em; }
+      .project-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-links { flex-direction: column; align-items: center; }
+      .timeline::before { left: 15px; }
+      .timeline-item { padding-left: 50px; }
+      .timeline-item::before { left: 4px; }
+    }
   </style>
 </head>
 <body>
-  <main>
-    <aside class="sidebar" data-sidebar>
-      <div class="sidebar-info">
-        <figure class="avatar-box">
-          <img src="https://www.hereaj.com/static/images/icons/profilefic.png" alt="Jaehyeon Ahn" width="80">
-        </figure>
-        <div class="info-content">
-          <h1 class="name" title="Jaehyeon Ahn">Jaehyeon(AJ) Ahn</h1>
-          <p class="title">UW CSE Student</p>
+  <div class="content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <h1 class="hero-title">Jaehyeon (AJ) Ahn</h1>
+      <p class="hero-subtitle">UW Computer Science Student specializing in Data Science • Building ML solutions and database systems • CrossFit Coach passionate about data-driven training</p>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number">15+</span>
+        <span class="stat-label">Projects Completed</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">6+</span>
+        <span class="stat-label">Programming Languages</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">10+</span>
+        <span class="stat-label">CSE Courses</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">2+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section-header">
+      <h2 class="section-title">About Me</h2>
+      <p class="section-subtitle">I'm an undergraduate at the Paul G. Allen School of Computer Science at the University of Washington, pursuing the Data Science option. I'm passionate about solving complex problems with data, building machine learning solutions, and developing robust database systems. When I'm not coding, I coach CrossFit and love analyzing training data to optimize athletic performance.</p>
+    </section>
+
+    <!-- Current Studies -->
+    <section class="section-header">
+      <h2 class="section-title">What I'm Currently Studying</h2>
+    </section>
+    
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">CSE 447</span>
+          <h3 class="project-title">Natural Language Processing</h3>
+          <p class="project-description">Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">PyTorch</span>
+            <span class="tech-tag">Transformers</span>
+            <span class="tech-tag">NLTK</span>
+          </div>
         </div>
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
       </div>
-      <div class="sidebar-info_more">
-        <div class="separator"></div>
-        <ul class="contacts-list">
-          <li class="contact-item">
-            <div class="icon-box">
-              <img src="https://www.hereaj.com/static/images/icons/email.svg" alt="email icon" width="16">
-            </div>
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-              <a href="mailto:hereaj@uw.edu" class="contact-link">hereaj@uw.edu</a>
-            </div>
-          </li>
-          <li class="contact-item">
-            <div class="icon-box">
-              <img src="https://www.hereaj.com/static/images/icons/location-dot-solid.svg" alt="location icon" width="15">
-            </div>
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
-              <address>Seattle, WA</address>
-            </div>
-          </li>
-        </ul>
-        <div class="separator"></div>
-        <ul class="social-list">
-          <li class="social-item">
-            <a href="https://www.linkedin.com/in/hereaj/" class="social-link">
-              <img src="https://www.hereaj.com/static/images/icons/linkedin.svg" alt="linkedin" width="18">
-            </a>
-          </li>
-          <li class="social-item">
-            <a href="https://github.com/hereaj" class="social-link">
-              <img src="https://www.hereaj.com/static/images/icons/github-brands.svg" alt="github" width="19">
-            </a>
-          </li>
-        </ul>
+      
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">CSE 446 & CSE 493G1</span>
+          <h3 class="project-title">Machine Learning & Deep Learning</h3>
+          <p class="project-description">Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">TensorFlow</span>
+            <span class="tech-tag">Scikit-learn</span>
+            <span class="tech-tag">NumPy</span>
+          </div>
+        </div>
       </div>
-    </aside>
-
-    <div class="main-content">
-      <nav class="navbar">
-        <ul class="navbar-list">
-          <li class="navbar-item"><button class="navbar-link active" data-nav-link>About</button></li>
-          <li class="navbar-item"><button class="navbar-link" data-nav-link>Resume</button></li>
-          <li class="navbar-item"><button class="navbar-link" data-nav-link>Portfolio</button></li>
-          <li class="navbar-item"><button class="navbar-link" data-nav-link>Courses</button></li>
-        </ul>
-      </nav>
-
-      <article class="about active" data-page="about">
-        <header><h2 class="h2 article-title">About me</h2></header>
-        <section class="about-text">
-          <p>I am an undergraduate in the <a href="https://www.cs.washington.edu/" target="_blank">Paul G. Allen School</a> at the University of Washington, pursuing the Data Science option. I love tackling problems with data and building ML and database solutions. Outside of school I'm a CrossFit coach and enjoy measuring progress through training data.</p>
-        </section>
-        <section class="service">
-          <h3 class="h3 service-title">What I'm Studying</h3>
-          <ul class="service-list">
-            <li class="service-item">
-              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-design.svg" width="40" alt="icon"></div>
-              <div class="service-content-box"><h4 class="h4 service-item-title">NLP</h4><p class="service-item-text">Building language models in CSE447.</p></div>
-            </li>
-            <li class="service-item">
-              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-design.svg" width="40" alt="icon"></div>
-              <div class="service-content-box"><h4 class="h4 service-item-title">ML/DL</h4><p class="service-item-text">Applying algorithms from CSE446 and CSE493G1.</p></div>
-            </li>
-            <li class="service-item">
-              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-dev.svg" width="40" alt="icon"></div>
-              <div class="service-content-box"><h4 class="h4 service-item-title">Database</h4><p class="service-item-text">Developing a simple DB in CSE444.</p></div>
-            </li>
-            <li class="service-item">
-              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-app.svg" width="40" alt="icon"></div>
-              <div class="service-content-box"><h4 class="h4 service-item-title">Web Application</h4><p class="service-item-text">Creating full stack apps in CSE331.</p></div>
-            </li>
-          </ul>
-        </section>
-      </article>
-
-      <article class="resume" data-page="resume">
-        <header><h2 class="h2 article-title">Resume</h2></header>
-        <section class="timeline">
-          <div class="title-wrapper"><div class="icon-box"><img src="https://www.hereaj.com/static/images/icons/book-solid.svg" width="20" alt="icon"></div><h3 class="h3">Education</h3></div>
-          <ol class="timeline-list">
-            <li class="timeline-item"><h4 class="h4 timeline-item-title">University of Washington</h4><span>2023 — 2025(Expected)</span><p class="timeline-text">Major in Computer Science (Data Science).</p></li>
-            <li class="timeline-item"><h4 class="h4 timeline-item-title">Bellevue College</h4><span>2022 — 2023</span><p class="timeline-text">CS 210, CS 211, MATH 208.</p></li>
-          </ol>
-        </section>
-        <section class="timeline">
-          <div class="title-wrapper"><div class="icon-box"><img src="https://www.hereaj.com/static/images/icons/book-solid.svg" width="20" alt="icon"></div><h3 class="h3">Experience</h3></div>
-          <ol class="timeline-list">
-            <li class="timeline-item"><h4 class="h4 timeline-item-title">CrossFit Coach @ Persistence Athletics</h4><span>2022 — Present</span><p class="timeline-text">Lead group classes and track athlete progress.</p></li>
-          </ol>
-        </section>
-        <section class="skill">
-          <h3 class="h3 skills-title">My skills</h3>
-          <ul class="skills-list content-card">
-            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">JAVA</h5><data value="90">90%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%;"></div></div></li>
-            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">C/C++</h5><data value="80">80%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:80%;"></div></div></li>
-            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">Python</h5><data value="90">90%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%;"></div></div></li>
-            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">HTML/CSS</h5><data value="70">70%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:70%;"></div></div></li>
-            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">SQL/NoSQL</h5><data value="90">90%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%;"></div></div></li>
-            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">R</h5><data value="70">70%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:70%;"></div></div></li>
-          </ul>
-        </section>
-      </article>
-
-      <article class="portfolio" data-page="portfolio">
-        <header><h2 class="h2 article-title">Portfolio</h2></header>
-        <section class="projects">
-          <ul class="project-list">
-            <li class="project-item active" data-filter-item data-category="Database Management"><a href="https://github.com/Hereaj/flightManager" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/flight.jpeg" alt="flight manager" loading="lazy"></figure><h3 class="project-title">Flight Manager</h3><p class="project-category">Database Management</p></a></li>
-            <li class="project-item active" data-filter-item data-category="Database Management"><a href="https://github.com/Hereaj/simpleDB" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/simpledb.jpeg" alt="simple db" loading="lazy"></figure><h3 class="project-title">Simple DB</h3><p class="project-category">Database Management</p></a></li>
-            <li class="project-item active" data-filter-item data-category="Web Applications"><a href="https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/mappinganxiety.jpeg" alt="Mapping Anxiety" loading="lazy"></figure><h3 class="project-title">Mapping Anxiety</h3><p class="project-category">Web Applications</p></a></li>
-            <li class="project-item active" data-filter-item data-category="Web Applications"><a href="https://flights-covid-cse442-24au-a3-2cd69bccf9ff2ba81a81a796a607c24612.pages.cs.washington.edu/" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/flightcovid.jpeg" alt="Flight Covid" loading="lazy"></figure><h3 class="project-title">Flight COVID in US</h3><p class="project-category">Web Applications</p></a></li>
-            <li class="project-item active" data-filter-item data-category="ML/DL/NLP"><a href="https://github.com/Hereaj/wizardryGPT" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/wizadryGPT.jpeg" alt="Wizardry GPT" loading="lazy"></figure><h3 class="project-title">Wizardry GPT</h3><p class="project-category">ML/DL/NLP</p></a></li>
-            <li class="project-item active" data-filter-item data-category="ML/DL/NLP"><a href="https://www.hereaj.com/static/images/projects/DL_project_Final_ppt.pdf" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/lipnet.jpeg" alt="LipNet" loading="lazy"></figure><h3 class="project-title">LipNet with Self-Attention</h3><p class="project-category">ML/DL/NLP</p></a></li>
-            <li class="project-item active" data-filter-item data-category="ML/DL/NLP"><a href="https://github.com/Hereaj/selfdriving" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/selfdriving.jpeg" alt="Self driving" loading="lazy"></figure><h3 class="project-title">Self-Driving Car</h3><p class="project-category">ML/DL/NLP</p></a></li>
-            <li class="project-item active" data-filter-item data-category="Web Applications"><a href="#"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/ImaMod.jpeg" alt="ImaMod" loading="lazy"></figure><h3 class="project-title">Image Modification</h3><p class="project-category">Web Applications</p></a></li>
-          </ul>
-        </section>
-      </article>
-
-      <article class="courses" data-page="courses">
-        <header><h2 class="h2 article-title">Courses</h2></header>
-        <section class="about-text"><p>All the CSE courses that I have taken so far.</p></section>
-        <section class="blog-posts">
-          <ul class="blog-posts-list">
-            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse311/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 311</p><span class="dot"></span><time datetime="2023-09-01">Autumn 2023</time></div><h3 class="h3 blog-item-title">Foundations of Computing I</h3></div></a></li>
-            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse312/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 312</p><span class="dot"></span><time datetime="2024-01-01">Winter 2024</time></div><h3 class="h3 blog-item-title">Foundations of Computing II</h3></div></a></li>
-            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse331/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 331</p><span class="dot"></span><time datetime="2023-09-01">Autumn 2023</time></div><h3 class="h3 blog-item-title">Software Design and Implementation</h3></div></a></li>
-            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse332/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 332</p><span class="dot"></span><time datetime="2024-01-01">Winter 2024</time></div><h3 class="h3 blog-item-title">Data Structures and Parallelism</h3></div></a></li>
-            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse333/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 333</p><span class="dot"></span><time datetime="2024-04-01">Spring 2024</time></div><h3 class="h3 blog-item-title">Systems Programming</h3></div></a></li>
-            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse344/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 344</p><span class="dot"></span><time datetime="2024-01-01">Winter 2024</time></div><h3 class="h3 blog-item-title">Intro to Data Management</h3></div></a></li>
-          </ul>
-        </section>
-      </article>
+      
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">CSE 444</span>
+          <h3 class="project-title">Database Systems</h3>
+          <p class="project-description">Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">SQL</span>
+            <span class="tech-tag">B+ Trees</span>
+            <span class="tech-tag">Query Optimization</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">CSE 331</span>
+          <h3 class="project-title">Software Engineering</h3>
+          <p class="project-description">Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.</p>
+          <div class="project-tech">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Testing</span>
+          </div>
+        </div>
+      </div>
     </div>
-  </main>
 
-  <script src="https://www.hereaj.com/static/js/script.js"></script>
+    <!-- Featured Projects -->
+    <section class="section-header">
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-subtitle">A showcase of my work in machine learning, database systems, and web development</p>
+    </section>
+
+    <div class="project-grid">
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">ML/DL/NLP</span>
+          <h3 class="project-title">Wizardry GPT</h3>
+          <p class="project-description">A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">PyTorch</span>
+            <span class="tech-tag">Transformers</span>
+            <span class="tech-tag">Hugging Face</span>
+          </div>
+          <a href="https://github.com/Hereaj/wizardryGPT" class="project-link" target="_blank">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">ML/DL/NLP</span>
+          <h3 class="project-title">LipNet with Self-Attention</h3>
+          <p class="project-description">Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">TensorFlow</span>
+            <span class="tech-tag">Computer Vision</span>
+            <span class="tech-tag">Attention Mechanisms</span>
+          </div>
+          <a href="https://www.hereaj.com/static/images/projects/DL_project_Final_ppt.pdf" class="project-link" target="_blank">View Research →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">Database Management</span>
+          <h3 class="project-title">Simple DB</h3>
+          <p class="project-description">A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">B+ Trees</span>
+            <span class="tech-tag">SQL Parser</span>
+            <span class="tech-tag">Buffer Management</span>
+          </div>
+          <a href="https://github.com/Hereaj/simpleDB" class="project-link" target="_blank">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">Web Applications</span>
+          <h3 class="project-title">Mapping Anxiety</h3>
+          <p class="project-description">Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.</p>
+          <div class="project-tech">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">D3.js</span>
+            <span class="tech-tag">Data Visualization</span>
+            <span class="tech-tag">Statistical Analysis</span>
+          </div>
+          <a href="https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/" class="project-link" target="_blank">View Live Demo →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">ML/DL/NLP</span>
+          <h3 class="project-title">Self-Driving Car</h3>
+          <p class="project-description">Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">OpenCV</span>
+            <span class="tech-tag">CNN</span>
+            <span class="tech-tag">Computer Vision</span>
+          </div>
+          <a href="https://github.com/Hereaj/selfdriving" class="project-link" target="_blank">View Project →</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-content">
+          <span class="project-category">Database Management</span>
+          <h3 class="project-title">Flight Manager</h3>
+          <p class="project-description">Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.</p>
+          <div class="project-tech">
+            <span class="tech-tag">SQL</span>
+            <span class="tech-tag">Database Design</span>
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">JDBC</span>
+          </div>
+          <a href="https://github.com/Hereaj/flightManager" class="project-link" target="_blank">View Project →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+      <div class="section-header">
+        <h2 class="section-title">Technical Skills</h2>
+        <p class="section-subtitle">Proficiencies across programming languages, frameworks, and technologies</p>
+      </div>
+      
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>Programming Languages</h3>
+          <div class="skill-item">
+            <span class="skill-name">Python</span>
+            <span class="skill-level">Expert</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Java</span>
+            <span class="skill-level">Expert</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">C/C++</span>
+            <span class="skill-level">Advanced</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">JavaScript/TypeScript</span>
+            <span class="skill-level">Proficient</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">R</span>
+            <span class="skill-level">Proficient</span>
+          </div>
+        </div>
+        
+        <div class="skill-category">
+          <h3>Data & ML Technologies</h3>
+          <div class="skill-item">
+            <span class="skill-name">PyTorch & TensorFlow</span>
+            <span class="skill-level">Advanced</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Pandas & NumPy</span>
+            <span class="skill-level">Expert</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Scikit-learn</span>
+            <span class="skill-level">Advanced</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">SQL & NoSQL</span>
+            <span class="skill-level">Expert</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Statistical Analysis</span>
+            <span class="skill-level">Advanced</span>
+          </div>
+        </div>
+        
+        <div class="skill-category">
+          <h3>Web & Software Engineering</h3>
+          <div class="skill-item">
+            <span class="skill-name">React & Node.js</span>
+            <span class="skill-level">Proficient</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">HTML/CSS</span>
+            <span class="skill-level">Proficient</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Git & Version Control</span>
+            <span class="skill-level">Advanced</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">Software Testing</span>
+            <span class="skill-level">Advanced</span>
+          </div>
+          <div class="skill-item">
+            <span class="skill-name">System Design</span>
+            <span class="skill-level">Proficient</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education & Experience Timeline -->
+    <section class="section-header">
+      <h2 class="section-title">Education & Experience</h2>
+    </section>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-date">2023 — 2025 (Expected)</div>
+          <h3 class="timeline-title">University of Washington</h3>
+          <p class="timeline-description">Bachelor of Science in Computer Science with Data Science option. Relevant coursework: Machine Learning, Deep Learning, Natural Language Processing, Database Systems, Software Engineering, Data Structures & Algorithms.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-date">2022 — Present</div>
+          <h3 class="timeline-title">CrossFit Coach @ Persistence Athletics</h3>
+          <p class="timeline-description">Lead group fitness classes for 15-20 athletes, design personalized training programs, track performance metrics, and analyze training data to optimize athlete progress and reduce injury risk.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item">
+        <div class="timeline-content">
+          <div class="timeline-date">2022 — 2023</div>
+          <h3 class="timeline-title">Bellevue College</h3>
+          <p class="timeline-description">Completed foundational computer science courses including Data Structures (CS 210), Computer Programming (CS 211), and Calculus III (MATH 208) with honors.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+      <h2 class="section-title">Let's Connect</h2>
+      <p class="section-subtitle">I'm always interested in discussing new opportunities, collaborating on projects, or talking about data science and machine learning!</p>
+      
+      <div class="contact-links">
+        <a href="mailto:hereaj@uw.edu" class="contact-link">
+          <span>📧</span>
+          <span>hereaj@uw.edu</span>
+        </a>
+        <a href="https://www.linkedin.com/in/hereaj/" class="contact-link" target="_blank">
+          <span>💼</span>
+          <span>LinkedIn</span>
+        </a>
+        <a href="https://github.com/hereaj" class="contact-link" target="_blank">
+          <span>💻</span>
+          <span>GitHub</span>
+        </a>
+        <div class="contact-link">
+          <span>📍</span>
+          <span>Seattle, WA</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
