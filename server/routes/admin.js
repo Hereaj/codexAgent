@@ -156,20 +156,49 @@ router.put('/projects/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { category, title, description, technologies, link, linkText, isCurrentStudy, sortOrder } = req.body;
+    
+    // Validate required fields
+    if (!category || !title || !description) {
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        details: 'Category, title, and description are required'
+      });
+    }
+
+    // Validate technologies format
+    if (!Array.isArray(technologies)) {
+      return res.status(400).json({ 
+        error: 'Invalid technologies format',
+        details: 'Technologies must be an array'
+      });
+    }
+
     const client = await pool.connect();
     try {
-      await client.query(`
+      const result = await client.query(`
         UPDATE projects 
         SET category = $1, title = $2, description = $3, technologies = $4, link = $5, link_text = $6, is_current_study = $7, sort_order = $8, updated_at = CURRENT_TIMESTAMP
         WHERE id = $9
+        RETURNING id
       `, [category, title, description, JSON.stringify(technologies), link, linkText, isCurrentStudy || false, sortOrder || 0, id]);
-      res.json({ success: true });
+      
+      if (result.rows.length === 0) {
+        return res.status(404).json({ 
+          error: 'Project not found',
+          details: `No project found with ID ${id}`
+        });
+      }
+      
+      res.json({ success: true, message: 'Project updated successfully' });
     } finally {
       client.release();
     }
   } catch (error) {
     console.error('Database error:', error);
-    res.status(500).json({ error: 'Failed to update project' });
+    res.status(500).json({ 
+      error: 'Database error occurred',
+      details: error.message 
+    });
   }
 });
 
@@ -213,20 +242,41 @@ router.put('/skills/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { category, name, level, sortOrder } = req.body;
+    
+    // Validate required fields
+    if (!category || !name || !level) {
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        details: 'Category, name, and level are required'
+      });
+    }
+
     const client = await pool.connect();
     try {
-      await client.query(`
+      const result = await client.query(`
         UPDATE skills 
         SET category = $1, name = $2, level = $3, sort_order = $4
         WHERE id = $5
+        RETURNING id
       `, [category, name, level, sortOrder || 0, id]);
-      res.json({ success: true });
+      
+      if (result.rows.length === 0) {
+        return res.status(404).json({ 
+          error: 'Skill not found',
+          details: `No skill found with ID ${id}`
+        });
+      }
+      
+      res.json({ success: true, message: 'Skill updated successfully' });
     } finally {
       client.release();
     }
   } catch (error) {
     console.error('Database error:', error);
-    res.status(500).json({ error: 'Failed to update skill' });
+    res.status(500).json({ 
+      error: 'Database error occurred',
+      details: error.message 
+    });
   }
 });
 

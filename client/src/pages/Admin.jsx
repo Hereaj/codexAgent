@@ -563,9 +563,14 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
     isCurrentStudy: project?.is_current_study || false,
     sortOrder: project?.sort_order || 0
   });
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
     const payload = {
       ...formData,
@@ -585,14 +590,17 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
         body: JSON.stringify(payload)
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         onSuccess();
-        alert(`Project ${project ? 'updated' : 'added'} successfully!`);
       } else {
-        alert(`Failed to ${project ? 'update' : 'add'} project`);
+        setError(result.details || result.error || `Failed to ${project ? 'update' : 'add'} project`);
       }
     } catch (error) {
-      alert(`Error ${project ? 'updating' : 'adding'} project`);
+      setError(`Network error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -702,9 +710,23 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
               onChange={(e) => setFormData({...formData, sortOrder: parseInt(e.target.value)})}
             />
           </div>
+          {error && (
+            <div className="error-message" style={{
+              color: '#dc3545',
+              backgroundColor: '#f8d7da',
+              border: '1px solid #f5c6cb',
+              borderRadius: '4px',
+              padding: '10px',
+              marginBottom: '15px'
+            }}>
+              {error}
+            </div>
+          )}
           <div className="form-actions">
-            <button type="submit">{project ? 'Update' : 'Add'} Project</button>
-            <button type="button" onClick={onCancel}>Cancel</button>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Saving...' : `${project ? 'Update' : 'Add'} Project`}
+            </button>
+            <button type="button" onClick={onCancel} disabled={loading}>Cancel</button>
           </div>
         </form>
       </div>
@@ -796,9 +818,14 @@ const SkillForm = ({ skill, sessionId, onSuccess, onCancel }) => {
     level: skill?.level || '',
     sortOrder: skill?.sort_order || 0
   });
+  
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
 
     try {
       const url = skill ? `/api/admin/skills/${skill.id}` : '/api/admin/skills';
@@ -813,14 +840,17 @@ const SkillForm = ({ skill, sessionId, onSuccess, onCancel }) => {
         body: JSON.stringify(formData)
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         onSuccess();
-        alert(`Skill ${skill ? 'updated' : 'added'} successfully!`);
       } else {
-        alert(`Failed to ${skill ? 'update' : 'add'} skill`);
+        setError(result.details || result.error || `Failed to ${skill ? 'update' : 'add'} skill`);
       }
     } catch (error) {
-      alert(`Error ${skill ? 'updating' : 'adding'} skill`);
+      setError(`Network error: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -869,9 +899,23 @@ const SkillForm = ({ skill, sessionId, onSuccess, onCancel }) => {
               onChange={(e) => setFormData({...formData, sortOrder: parseInt(e.target.value)})}
             />
           </div>
+          {error && (
+            <div className="error-message" style={{
+              color: '#dc3545',
+              backgroundColor: '#f8d7da',
+              border: '1px solid #f5c6cb',
+              borderRadius: '4px',
+              padding: '10px',
+              marginBottom: '15px'
+            }}>
+              {error}
+            </div>
+          )}
           <div className="form-actions">
-            <button type="submit">{skill ? 'Update' : 'Add'} Skill</button>
-            <button type="button" onClick={onCancel}>Cancel</button>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Saving...' : `${skill ? 'Update' : 'Add'} Skill`}
+            </button>
+            <button type="button" onClick={onCancel} disabled={loading}>Cancel</button>
           </div>
         </form>
       </div>
