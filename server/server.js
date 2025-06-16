@@ -6,6 +6,26 @@ const { initializeDatabase, pool } = require('./database/init');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Helper function to safely parse technologies field
+const parseTechnologies = (technologies) => {
+  if (!technologies) return [];
+  if (Array.isArray(technologies)) return technologies;
+  if (typeof technologies === 'string') {
+    try {
+      // Try to parse as JSON first
+      if (technologies.startsWith('[') && technologies.endsWith(']')) {
+        return JSON.parse(technologies);
+      }
+      // Otherwise treat as comma-separated string
+      return technologies.split(',').map(t => t.trim()).filter(t => t.length > 0);
+    } catch (error) {
+      console.warn('Error parsing technologies:', technologies, error);
+      return [];
+    }
+  }
+  return [];
+};
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -53,18 +73,14 @@ app.get('/api/portfolio', async (req, res) => {
           category: row.category,
           title: row.title,
           description: row.description,
-          technologies: typeof row.technologies === 'string' ? 
-          (row.technologies.startsWith('[') ? JSON.parse(row.technologies) : row.technologies.split(',').map(t => t.trim())) 
-          : row.technologies
+          technologies: parseTechnologies(row.technologies)
         })),
         projects: projectsResult.rows.map(row => ({
           id: row.id,
           category: row.category,
           title: row.title,
           description: row.description,
-          technologies: typeof row.technologies === 'string' ? 
-          (row.technologies.startsWith('[') ? JSON.parse(row.technologies) : row.technologies.split(',').map(t => t.trim())) 
-          : row.technologies,
+          technologies: parseTechnologies(row.technologies),
           link: row.link,
           linkText: row.link_text
         })),
@@ -114,9 +130,7 @@ app.get('/api/projects', async (req, res) => {
         category: row.category,
         title: row.title,
         description: row.description,
-        technologies: typeof row.technologies === 'string' ? 
-          (row.technologies.startsWith('[') ? JSON.parse(row.technologies) : row.technologies.split(',').map(t => t.trim())) 
-          : row.technologies,
+        technologies: parseTechnologies(row.technologies),
         link: row.link,
         linkText: row.link_text
       }));
