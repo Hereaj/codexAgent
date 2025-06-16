@@ -1,40 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
-        }
-        .container {
-            text-align: center;
-            padding: 2rem;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #1a73e8;
-            margin-bottom: 1rem;
-        }
-        p {
-            color: #5f6368;
-            font-size: 1.2rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jaehyeon Ahn Portfolio</title>
+  <link rel="stylesheet" href="https://www.hereaj.com/static/css/style.css">
+  <style>
+    body { margin: 0; }
+    .content { max-width: 1000px; margin: auto; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hello World!</h1>
-        <p>Welcome to my first web page</p>
+  <main>
+    <aside class="sidebar" data-sidebar>
+      <div class="sidebar-info">
+        <figure class="avatar-box">
+          <img src="https://www.hereaj.com/static/images/icons/profilefic.png" alt="Jaehyeon Ahn" width="80">
+        </figure>
+        <div class="info-content">
+          <h1 class="name" title="Jaehyeon Ahn">Jaehyeon(AJ) Ahn</h1>
+          <p class="title">UW CSE Student</p>
+        </div>
+        <button class="info_more-btn" data-sidebar-btn>
+          <span>Show Contacts</span>
+          <ion-icon name="chevron-down"></ion-icon>
+        </button>
+      </div>
+      <div class="sidebar-info_more">
+        <div class="separator"></div>
+        <ul class="contacts-list">
+          <li class="contact-item">
+            <div class="icon-box">
+              <img src="https://www.hereaj.com/static/images/icons/email.svg" alt="email icon" width="16">
+            </div>
+            <div class="contact-info">
+              <p class="contact-title">Email</p>
+              <a href="mailto:hereaj@uw.edu" class="contact-link">hereaj@uw.edu</a>
+            </div>
+          </li>
+          <li class="contact-item">
+            <div class="icon-box">
+              <img src="https://www.hereaj.com/static/images/icons/location-dot-solid.svg" alt="location icon" width="15">
+            </div>
+            <div class="contact-info">
+              <p class="contact-title">Location</p>
+              <address>Seattle, WA</address>
+            </div>
+          </li>
+        </ul>
+        <div class="separator"></div>
+        <ul class="social-list">
+          <li class="social-item">
+            <a href="https://www.linkedin.com/in/hereaj/" class="social-link">
+              <img src="https://www.hereaj.com/static/images/icons/linkedin.svg" alt="linkedin" width="18">
+            </a>
+          </li>
+          <li class="social-item">
+            <a href="https://github.com/hereaj" class="social-link">
+              <img src="https://www.hereaj.com/static/images/icons/github-brands.svg" alt="github" width="19">
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <nav class="navbar">
+        <ul class="navbar-list">
+          <li class="navbar-item"><button class="navbar-link active" data-nav-link>About</button></li>
+          <li class="navbar-item"><button class="navbar-link" data-nav-link>Resume</button></li>
+          <li class="navbar-item"><button class="navbar-link" data-nav-link>Portfolio</button></li>
+          <li class="navbar-item"><button class="navbar-link" data-nav-link>Courses</button></li>
+        </ul>
+      </nav>
+
+      <article class="about active" data-page="about">
+        <header><h2 class="h2 article-title">About me</h2></header>
+        <section class="about-text">
+          <p>I am an undergraduate in the <a href="https://www.cs.washington.edu/" target="_blank">Paul G. Allen School</a> at the University of Washington, pursuing the Data Science option. I love tackling problems with data and building ML and database solutions. Outside of school I'm a CrossFit coach and enjoy measuring progress through training data.</p>
+        </section>
+        <section class="service">
+          <h3 class="h3 service-title">What I'm Studying</h3>
+          <ul class="service-list">
+            <li class="service-item">
+              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-design.svg" width="40" alt="icon"></div>
+              <div class="service-content-box"><h4 class="h4 service-item-title">NLP</h4><p class="service-item-text">Building language models in CSE447.</p></div>
+            </li>
+            <li class="service-item">
+              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-design.svg" width="40" alt="icon"></div>
+              <div class="service-content-box"><h4 class="h4 service-item-title">ML/DL</h4><p class="service-item-text">Applying algorithms from CSE446 and CSE493G1.</p></div>
+            </li>
+            <li class="service-item">
+              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-dev.svg" width="40" alt="icon"></div>
+              <div class="service-content-box"><h4 class="h4 service-item-title">Database</h4><p class="service-item-text">Developing a simple DB in CSE444.</p></div>
+            </li>
+            <li class="service-item">
+              <div class="service-icon-box"><img src="https://www.hereaj.com/static/images/icons/icon-app.svg" width="40" alt="icon"></div>
+              <div class="service-content-box"><h4 class="h4 service-item-title">Web Application</h4><p class="service-item-text">Creating full stack apps in CSE331.</p></div>
+            </li>
+          </ul>
+        </section>
+      </article>
+
+      <article class="resume" data-page="resume">
+        <header><h2 class="h2 article-title">Resume</h2></header>
+        <section class="timeline">
+          <div class="title-wrapper"><div class="icon-box"><img src="https://www.hereaj.com/static/images/icons/book-solid.svg" width="20" alt="icon"></div><h3 class="h3">Education</h3></div>
+          <ol class="timeline-list">
+            <li class="timeline-item"><h4 class="h4 timeline-item-title">University of Washington</h4><span>2023 — 2025(Expected)</span><p class="timeline-text">Major in Computer Science (Data Science).</p></li>
+            <li class="timeline-item"><h4 class="h4 timeline-item-title">Bellevue College</h4><span>2022 — 2023</span><p class="timeline-text">CS 210, CS 211, MATH 208.</p></li>
+          </ol>
+        </section>
+        <section class="timeline">
+          <div class="title-wrapper"><div class="icon-box"><img src="https://www.hereaj.com/static/images/icons/book-solid.svg" width="20" alt="icon"></div><h3 class="h3">Experience</h3></div>
+          <ol class="timeline-list">
+            <li class="timeline-item"><h4 class="h4 timeline-item-title">CrossFit Coach @ Persistence Athletics</h4><span>2022 — Present</span><p class="timeline-text">Lead group classes and track athlete progress.</p></li>
+          </ol>
+        </section>
+        <section class="skill">
+          <h3 class="h3 skills-title">My skills</h3>
+          <ul class="skills-list content-card">
+            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">JAVA</h5><data value="90">90%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%;"></div></div></li>
+            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">C/C++</h5><data value="80">80%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:80%;"></div></div></li>
+            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">Python</h5><data value="90">90%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%;"></div></div></li>
+            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">HTML/CSS</h5><data value="70">70%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:70%;"></div></div></li>
+            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">SQL/NoSQL</h5><data value="90">90%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:90%;"></div></div></li>
+            <li class="skills-item"><div class="title-wrapper"><h5 class="h5">R</h5><data value="70">70%</data></div><div class="skill-progress-bg"><div class="skill-progress-fill" style="width:70%;"></div></div></li>
+          </ul>
+        </section>
+      </article>
+
+      <article class="portfolio" data-page="portfolio">
+        <header><h2 class="h2 article-title">Portfolio</h2></header>
+        <section class="projects">
+          <ul class="project-list">
+            <li class="project-item active" data-filter-item data-category="Database Management"><a href="https://github.com/Hereaj/flightManager" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/flight.jpeg" alt="flight manager" loading="lazy"></figure><h3 class="project-title">Flight Manager</h3><p class="project-category">Database Management</p></a></li>
+            <li class="project-item active" data-filter-item data-category="Database Management"><a href="https://github.com/Hereaj/simpleDB" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/simpledb.jpeg" alt="simple db" loading="lazy"></figure><h3 class="project-title">Simple DB</h3><p class="project-category">Database Management</p></a></li>
+            <li class="project-item active" data-filter-item data-category="Web Applications"><a href="https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/mappinganxiety.jpeg" alt="Mapping Anxiety" loading="lazy"></figure><h3 class="project-title">Mapping Anxiety</h3><p class="project-category">Web Applications</p></a></li>
+            <li class="project-item active" data-filter-item data-category="Web Applications"><a href="https://flights-covid-cse442-24au-a3-2cd69bccf9ff2ba81a81a796a607c24612.pages.cs.washington.edu/" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/flightcovid.jpeg" alt="Flight Covid" loading="lazy"></figure><h3 class="project-title">Flight COVID in US</h3><p class="project-category">Web Applications</p></a></li>
+            <li class="project-item active" data-filter-item data-category="ML/DL/NLP"><a href="https://github.com/Hereaj/wizardryGPT" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/wizadryGPT.jpeg" alt="Wizardry GPT" loading="lazy"></figure><h3 class="project-title">Wizardry GPT</h3><p class="project-category">ML/DL/NLP</p></a></li>
+            <li class="project-item active" data-filter-item data-category="ML/DL/NLP"><a href="https://www.hereaj.com/static/images/projects/DL_project_Final_ppt.pdf" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/lipnet.jpeg" alt="LipNet" loading="lazy"></figure><h3 class="project-title">LipNet with Self-Attention</h3><p class="project-category">ML/DL/NLP</p></a></li>
+            <li class="project-item active" data-filter-item data-category="ML/DL/NLP"><a href="https://github.com/Hereaj/selfdriving" target="_blank" rel="noopener noreferrer"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/selfdriving.jpeg" alt="Self driving" loading="lazy"></figure><h3 class="project-title">Self-Driving Car</h3><p class="project-category">ML/DL/NLP</p></a></li>
+            <li class="project-item active" data-filter-item data-category="Web Applications"><a href="#"><figure class="project-img"><div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div><img src="https://www.hereaj.com/static/images/projects/ImaMod.jpeg" alt="ImaMod" loading="lazy"></figure><h3 class="project-title">Image Modification</h3><p class="project-category">Web Applications</p></a></li>
+          </ul>
+        </section>
+      </article>
+
+      <article class="courses" data-page="courses">
+        <header><h2 class="h2 article-title">Courses</h2></header>
+        <section class="about-text"><p>All the CSE courses that I have taken so far.</p></section>
+        <section class="blog-posts">
+          <ul class="blog-posts-list">
+            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse311/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 311</p><span class="dot"></span><time datetime="2023-09-01">Autumn 2023</time></div><h3 class="h3 blog-item-title">Foundations of Computing I</h3></div></a></li>
+            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse312/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 312</p><span class="dot"></span><time datetime="2024-01-01">Winter 2024</time></div><h3 class="h3 blog-item-title">Foundations of Computing II</h3></div></a></li>
+            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse331/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 331</p><span class="dot"></span><time datetime="2023-09-01">Autumn 2023</time></div><h3 class="h3 blog-item-title">Software Design and Implementation</h3></div></a></li>
+            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse332/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 332</p><span class="dot"></span><time datetime="2024-01-01">Winter 2024</time></div><h3 class="h3 blog-item-title">Data Structures and Parallelism</h3></div></a></li>
+            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse333/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 333</p><span class="dot"></span><time datetime="2024-04-01">Spring 2024</time></div><h3 class="h3 blog-item-title">Systems Programming</h3></div></a></li>
+            <li class="blog-post-item"><a href="https://courses.cs.washington.edu/courses/cse344/" target="_blank"><div class="blog-content"><div class="blog-meta"><p class="blog-category">CSE 344</p><span class="dot"></span><time datetime="2024-01-01">Winter 2024</time></div><h3 class="h3 blog-item-title">Intro to Data Management</h3></div></a></li>
+          </ul>
+        </section>
+      </article>
     </div>
+  </main>
+
+  <script src="https://www.hereaj.com/static/js/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
-</html> 
+</html>
