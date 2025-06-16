@@ -8,7 +8,7 @@ channel = "stable-24_05"
 run = ["sh", "-c", "run"]
 
 [workflows]
-runButton = "Run HTML Server"
+runButton = "Full-Stack Dev"
 
 [[workflows.workflow]]
 name = "Run HTML Server"
@@ -27,3 +27,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npx http-server . -p 5000 -a 0.0.0.0"
+
+[[workflows.workflow]]
+name = "Full-Stack Dev"
+author = 41296124
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run install:all && npm run build && npm start"

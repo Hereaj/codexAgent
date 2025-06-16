@@ -1,0 +1,26 @@
+
+.projects-section {
+  margin: 4rem 0;
+}
+
+.current-studies,
+.featured-projects {
+  margin-bottom: 4rem;
+}
+
+.projects-grid {
+  gap: 2rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .projects-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projects-grid.grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+}

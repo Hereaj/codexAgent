@@ -1,0 +1,150 @@
+
+{
+  "hero": {
+    "name": "Jaehyeon (AJ) Ahn",
+    "title": "UW Computer Science Student specializing in Data Science",
+    "description": "Building ML solutions and database systems • CrossFit Coach passionate about data-driven training",
+    "stats": [
+      { "number": "15+", "label": "Projects Completed" },
+      { "number": "6+", "label": "Programming Languages" },
+      { "number": "10+", "label": "CSE Courses" },
+      { "number": "2+", "label": "Years Experience" }
+    ]
+  },
+  "about": "I'm an undergraduate at the Paul G. Allen School of Computer Science at the University of Washington, pursuing the Data Science option. I'm passionate about solving complex problems with data, building machine learning solutions, and developing robust database systems. When I'm not coding, I coach CrossFit and love analyzing training data to optimize athletic performance.",
+  "currentStudies": [
+    {
+      "id": 1,
+      "category": "CSE 447",
+      "title": "Natural Language Processing",
+      "description": "Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.",
+      "technologies": ["Python", "PyTorch", "Transformers", "NLTK"]
+    },
+    {
+      "id": 2,
+      "category": "CSE 446 & CSE 493G1",
+      "title": "Machine Learning & Deep Learning",
+      "description": "Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.",
+      "technologies": ["Python", "TensorFlow", "Scikit-learn", "NumPy"]
+    },
+    {
+      "id": 3,
+      "category": "CSE 444",
+      "title": "Database Systems",
+      "description": "Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.",
+      "technologies": ["Java", "SQL", "B+ Trees", "Query Optimization"]
+    },
+    {
+      "id": 4,
+      "category": "CSE 331",
+      "title": "Software Engineering",
+      "description": "Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.",
+      "technologies": ["TypeScript", "React", "Node.js", "Testing"]
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "category": "ML/DL/NLP",
+      "title": "Wizardry GPT",
+      "description": "A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.",
+      "technologies": ["Python", "PyTorch", "Transformers", "Hugging Face"],
+      "link": "https://github.com/Hereaj/wizardryGPT",
+      "linkText": "View Project"
+    },
+    {
+      "id": 2,
+      "category": "ML/DL/NLP",
+      "title": "LipNet with Self-Attention",
+      "description": "Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.",
+      "technologies": ["Python", "TensorFlow", "Computer Vision", "Attention Mechanisms"],
+      "link": "https://www.hereaj.com/static/images/projects/DL_project_Final_ppt.pdf",
+      "linkText": "View Research"
+    },
+    {
+      "id": 3,
+      "category": "Database Management",
+      "title": "Simple DB",
+      "description": "A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.",
+      "technologies": ["Java", "B+ Trees", "SQL Parser", "Buffer Management"],
+      "link": "https://github.com/Hereaj/simpleDB",
+      "linkText": "View Project"
+    },
+    {
+      "id": 4,
+      "category": "Web Applications",
+      "title": "Mapping Anxiety",
+      "description": "Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.",
+      "technologies": ["JavaScript", "D3.js", "Data Visualization", "Statistical Analysis"],
+      "link": "https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/",
+      "linkText": "View Live Demo"
+    },
+    {
+      "id": 5,
+      "category": "ML/DL/NLP",
+      "title": "Self-Driving Car",
+      "description": "Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.",
+      "technologies": ["Python", "OpenCV", "CNN", "Computer Vision"],
+      "link": "https://github.com/Hereaj/selfdriving",
+      "linkText": "View Project"
+    },
+    {
+      "id": 6,
+      "category": "Database Management",
+      "title": "Flight Manager",
+      "description": "Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.",
+      "technologies": ["SQL", "Database Design", "Java", "JDBC"],
+      "link": "https://github.com/Hereaj/flightManager",
+      "linkText": "View Project"
+    }
+  ],
+  "skills": {
+    "Programming Languages": [
+      { "name": "Python", "level": "Expert" },
+      { "name": "Java", "level": "Expert" },
+      { "name": "C/C++", "level": "Advanced" },
+      { "name": "JavaScript/TypeScript", "level": "Proficient" },
+      { "name": "R", "level": "Proficient" }
+    ],
+    "Data & ML Technologies": [
+      { "name": "PyTorch & TensorFlow", "level": "Advanced" },
+      { "name": "Pandas & NumPy", "level": "Expert" },
+      { "name": "Scikit-learn", "level": "Advanced" },
+      { "name": "SQL & NoSQL", "level": "Expert" },
+      { "name": "Statistical Analysis", "level": "Advanced" }
+    ],
+    "Web & Software Engineering": [
+      { "name": "React & Node.js", "level": "Proficient" },
+      { "name": "HTML/CSS", "level": "Proficient" },
+      { "name": "Git & Version Control", "level": "Advanced" },
+      { "name": "Software Testing", "level": "Advanced" },
+      { "name": "System Design", "level": "Proficient" }
+    ]
+  },
+  "education": [
+    {
+      "id": 1,
+      "date": "2023 — 2025 (Expected)",
+      "title": "University of Washington",
+      "description": "Bachelor of Science in Computer Science with Data Science option. Relevant coursework: Machine Learning, Deep Learning, Natural Language Processing, Database Systems, Software Engineering, Data Structures & Algorithms."
+    },
+    {
+      "id": 2,
+      "date": "2022 — Present",
+      "title": "CrossFit Coach @ Persistence Athletics",
+      "description": "Lead group fitness classes for 15-20 athletes, design personalized training programs, track performance metrics, and analyze training data to optimize athlete progress and reduce injury risk."
+    },
+    {
+      "id": 3,
+      "date": "2022 — 2023",
+      "title": "Bellevue College",
+      "description": "Completed foundational computer science courses including Data Structures (CS 210), Computer Programming (CS 211), and Calculus III (MATH 208) with honors."
+    }
+  ],
+  "contact": {
+    "email": "hereaj@uw.edu",
+    "linkedin": "https://www.linkedin.com/in/hereaj/",
+    "github": "https://github.com/hereaj",
+    "location": "Seattle, WA"
+  }
+}
