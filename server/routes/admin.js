@@ -99,64 +99,94 @@ router.get('/data', requireAuth, async (req, res) => {
 // Update hero info
 router.put('/hero', requireAuth, async (req, res) => {
   try {
+    console.log('Hero update request received:', req.body);
     const { name, title, description } = req.body;
+    
+    if (!name || !title || !description) {
+      console.log('Missing required fields for hero update');
+      return res.status(400).json({ error: 'Name, title, and description are required' });
+    }
+    
     const client = await pool.connect();
     try {
       // Check if hero record exists
       const existingHero = await client.query('SELECT id FROM hero_info ORDER BY id DESC LIMIT 1');
+      console.log('Existing hero records found:', existingHero.rows.length);
       
       if (existingHero.rows.length > 0) {
         // Update existing record
-        await client.query(`
+        console.log('Updating existing hero record with ID:', existingHero.rows[0].id);
+        const updateResult = await client.query(`
           UPDATE hero_info SET name = $1, title = $2, description = $3, updated_at = CURRENT_TIMESTAMP
           WHERE id = $4
+          RETURNING id
         `, [name, title, description, existingHero.rows[0].id]);
+        console.log('Hero update result:', updateResult.rows);
       } else {
         // Insert new record if none exists
-        await client.query(`
+        console.log('Inserting new hero record');
+        const insertResult = await client.query(`
           INSERT INTO hero_info (name, title, description) VALUES ($1, $2, $3)
+          RETURNING id
         `, [name, title, description]);
+        console.log('Hero insert result:', insertResult.rows);
       }
       
+      console.log('Hero update completed successfully');
       res.json({ success: true, message: 'Hero info updated successfully' });
     } finally {
       client.release();
     }
   } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ error: 'Failed to update hero info' });
+    console.error('Hero update database error:', error);
+    res.status(500).json({ error: 'Failed to update hero info: ' + error.message });
   }
 });
 
 // Update about info
 router.put('/about', requireAuth, async (req, res) => {
   try {
+    console.log('About update request received:', req.body);
     const { content } = req.body;
+    
+    if (!content) {
+      console.log('Missing content for about update');
+      return res.status(400).json({ error: 'Content is required' });
+    }
+    
     const client = await pool.connect();
     try {
       // Check if about record exists
       const existingAbout = await client.query('SELECT id FROM about_info ORDER BY id DESC LIMIT 1');
+      console.log('Existing about records found:', existingAbout.rows.length);
       
       if (existingAbout.rows.length > 0) {
         // Update existing record
-        await client.query(`
+        console.log('Updating existing about record with ID:', existingAbout.rows[0].id);
+        const updateResult = await client.query(`
           UPDATE about_info SET content = $1, updated_at = CURRENT_TIMESTAMP
           WHERE id = $2
+          RETURNING id
         `, [content, existingAbout.rows[0].id]);
+        console.log('About update result:', updateResult.rows);
       } else {
         // Insert new record if none exists
-        await client.query(`
+        console.log('Inserting new about record');
+        const insertResult = await client.query(`
           INSERT INTO about_info (content) VALUES ($1)
+          RETURNING id
         `, [content]);
+        console.log('About insert result:', insertResult.rows);
       }
       
+      console.log('About update completed successfully');
       res.json({ success: true, message: 'About info updated successfully' });
     } finally {
       client.release();
     }
   } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ error: 'Failed to update about info' });
+    console.error('About update database error:', error);
+    res.status(500).json({ error: 'Failed to update about info: ' + error.message });
   }
 });
 

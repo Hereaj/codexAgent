@@ -93,6 +93,9 @@ const Admin = () => {
 
   const updateHero = async (heroData) => {
     try {
+      console.log('Updating hero with data:', heroData);
+      console.log('Using session ID:', sessionId);
+      
       const response = await fetch('/api/admin/hero', {
         method: 'PUT',
         headers: {
@@ -103,20 +106,25 @@ const Admin = () => {
       });
 
       const result = await response.json();
+      console.log('Hero update response:', result);
       
       if (response.ok && result.success) {
         await checkAuth(); // Refresh data
-        alert(result.message || 'Hero info updated successfully!');
+        return { success: true, message: result.message || 'Hero info updated successfully!' };
       } else {
-        alert(result.error || 'Failed to update hero info');
+        return { success: false, error: result.error || 'Failed to update hero info' };
       }
     } catch (error) {
-      alert('Error updating hero info');
+      console.error('Hero update error:', error);
+      return { success: false, error: 'Network error occurred while updating hero info' };
     }
   };
 
   const updateAbout = async (aboutData) => {
     try {
+      console.log('Updating about with data:', aboutData);
+      console.log('Using session ID:', sessionId);
+      
       const response = await fetch('/api/admin/about', {
         method: 'PUT',
         headers: {
@@ -127,15 +135,17 @@ const Admin = () => {
       });
 
       const result = await response.json();
+      console.log('About update response:', result);
       
       if (response.ok && result.success) {
         await checkAuth(); // Refresh data
-        alert(result.message || 'About info updated successfully!');
+        return { success: true, message: result.message || 'About info updated successfully!' };
       } else {
-        alert(result.error || 'Failed to update about info');
+        return { success: false, error: result.error || 'Failed to update about info' };
       }
     } catch (error) {
-      alert('Error updating about info');
+      console.error('About update error:', error);
+      return { success: false, error: 'Network error occurred while updating about info' };
     }
   };
 
@@ -407,10 +417,23 @@ const HeroEditor = ({ hero, stats, onUpdate }) => {
     title: hero.title || '',
     description: hero.description || ''
   });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onUpdate(formData);
+    setLoading(true);
+    setMessage('');
+    
+    const result = await onUpdate(formData);
+    
+    if (result.success) {
+      setMessage({ type: 'success', text: result.message });
+    } else {
+      setMessage({ type: 'error', text: result.error });
+    }
+    
+    setLoading(false);
   };
 
   return (
@@ -441,10 +464,15 @@ const HeroEditor = ({ hero, stats, onUpdate }) => {
             rows="3"
           />
         </div>
-        <button type="submit">Update Hero</button>
+        {message && (
+          <div className={`message ${message.type}`}>
+            {message.text}
+          </div>
+        )}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Updating...' : 'Update Hero'}
+        </button>
       </form>
-
-      
     </div>
   );
 };
@@ -452,10 +480,23 @@ const HeroEditor = ({ hero, stats, onUpdate }) => {
 // About Editor Component
 const AboutEditor = ({ about, onUpdate }) => {
   const [content, setContent] = useState(about.content || '');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onUpdate({ content });
+    setLoading(true);
+    setMessage('');
+    
+    const result = await onUpdate({ content });
+    
+    if (result.success) {
+      setMessage({ type: 'success', text: result.message });
+    } else {
+      setMessage({ type: 'error', text: result.error });
+    }
+    
+    setLoading(false);
   };
 
   return (
@@ -470,7 +511,14 @@ const AboutEditor = ({ about, onUpdate }) => {
             rows="8"
           />
         </div>
-        <button type="submit">Update About</button>
+        {message && (
+          <div className={`message ${message.type}`}>
+            {message.text}
+          </div>
+        )}
+        <button type="submit" disabled={loading}>
+          {loading ? 'Updating...' : 'Update About'}
+        </button>
       </form>
     </div>
   );
