@@ -4,7 +4,11 @@ import './Admin.css';
 
 const Admin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [sessionId, setSessionId] = useState(localStorage.getItem('adminSession'));
+  const [sessionId, setSessionId] = useState(() => {
+    const stored = localStorage.getItem('adminSession');
+    console.log('Retrieved session ID from localStorage:', stored);
+    return stored;
+  });
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('hero');
@@ -96,6 +100,11 @@ const Admin = () => {
       console.log('Updating hero with data:', heroData);
       console.log('Using session ID:', sessionId);
       
+      if (!sessionId) {
+        console.error('No session ID available');
+        return { success: false, error: 'Session expired. Please log in again.' };
+      }
+      
       const response = await fetch('/api/admin/hero', {
         method: 'PUT',
         headers: {
@@ -124,6 +133,11 @@ const Admin = () => {
     try {
       console.log('Updating about with data:', aboutData);
       console.log('Using session ID:', sessionId);
+      
+      if (!sessionId) {
+        console.error('No session ID available');
+        return { success: false, error: 'Session expired. Please log in again.' };
+      }
       
       const response = await fetch('/api/admin/about', {
         method: 'PUT',
