@@ -37,7 +37,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 initializeDatabase().catch(console.error);
 
 // Serve static files from React build
-app.use(express.static(path.join(__dirname, '../client/dist')));
+const clientDistPath = process.env.NODE_ENV === 'production' 
+  ? path.join(__dirname, '../../client/dist')
+  : path.join(__dirname, '../client/dist');
+app.use(express.static(clientDistPath));
 
 // Admin routes
 const adminRoutes = require('./routes/admin');
@@ -217,7 +220,10 @@ app.get('/api/education', async (req, res) => {
 
 // Serve React app for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  const indexPath = process.env.NODE_ENV === 'production'
+    ? path.join(__dirname, '../../client/dist/index.html')
+    : path.join(__dirname, '../client/dist/index.html');
+  res.sendFile(indexPath);
 });
 
 app.listen(PORT, '0.0.0.0', () => {
