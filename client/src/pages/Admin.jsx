@@ -32,7 +32,8 @@ const Admin = () => {
 
           if (response.ok) {
             setIsLoggedIn(true);
-            await checkAuth();
+            const adminData = await response.json();
+            setData(adminData);
           } else {
             console.log('Session validation failed, clearing stored session');
             localStorage.removeItem('adminSession');
@@ -52,10 +53,19 @@ const Admin = () => {
   }, []);
 
   const checkAuth = async () => {
+    const currentSessionId = sessionId || localStorage.getItem('adminSession');
+    console.log('checkAuth using session ID:', currentSessionId);
+    
+    if (!currentSessionId) {
+      console.log('No session ID available for auth check');
+      setIsLoggedIn(false);
+      return;
+    }
+
     try {
       const response = await fetch('/api/admin/data', {
         headers: {
-          'X-Session-Id': sessionId
+          'X-Session-Id': currentSessionId
         }
       });
 
@@ -63,10 +73,16 @@ const Admin = () => {
         setIsLoggedIn(true);
         const adminData = await response.json();
         setData(adminData);
+        // Ensure sessionId state is up to date
+        if (sessionId !== currentSessionId) {
+          setSessionId(currentSessionId);
+        }
       } else {
+        console.log('Auth check failed, clearing session');
         localStorage.removeItem('adminSession');
         setSessionId(null);
         setIsLoggedIn(false);
+        setData(null);
       }
     } catch (error) {
       console.error('Auth check failed:', error);
@@ -129,10 +145,11 @@ const Admin = () => {
 
   const updateHero = async (heroData) => {
     try {
+      const currentSessionId = sessionId || localStorage.getItem('adminSession');
       console.log('Updating hero with data:', heroData);
-      console.log('Using session ID:', sessionId);
+      console.log('Using session ID:', currentSessionId);
 
-      if (!sessionId) {
+      if (!currentSessionId) {
         console.error('No session ID available');
         return { success: false, error: 'Session expired. Please log in again.' };
       }
@@ -141,7 +158,7 @@ const Admin = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'X-Session-Id': sessionId
+          'X-Session-Id': currentSessionId
         },
         body: JSON.stringify(heroData)
       });
@@ -163,10 +180,11 @@ const Admin = () => {
 
   const updateAbout = async (aboutData) => {
     try {
+      const currentSessionId = sessionId || localStorage.getItem('adminSession');
       console.log('Updating about with data:', aboutData);
-      console.log('Using session ID:', sessionId);
+      console.log('Using session ID:', currentSessionId);
 
-      if (!sessionId) {
+      if (!currentSessionId) {
         console.error('No session ID available');
         return { success: false, error: 'Session expired. Please log in again.' };
       }
@@ -175,7 +193,7 @@ const Admin = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'X-Session-Id': sessionId
+          'X-Session-Id': currentSessionId
         },
         body: JSON.stringify(aboutData)
       });
