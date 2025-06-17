@@ -5,7 +5,7 @@ run = "run"
 channel = "stable-24_05"
 
 [deployment]
-run = ["sh", "-c", "npm start"]
+run = ["sh", "-c", "cd server && NODE_ENV=production npm start"]
 deploymentTarget = "cloudrun"
 build = ["sh", "-c", "npm run install:all && npm run build"]
 
