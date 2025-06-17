@@ -29,6 +29,7 @@ const parseTechnologies = (technologies) => {
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Admin routes handle their own authentication
 
@@ -41,6 +42,26 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 // Admin routes
 const adminRoutes = require('./routes/admin');
 app.use('/api/admin', adminRoutes);
+
+// Analytics tracking
+app.post('/api/analytics/view', async (req, res) => {
+  try {
+    const { page, userAgent, timestamp } = req.body;
+    const client = await pool.connect();
+    try {
+      await client.query(`
+        INSERT INTO page_views (page, user_agent, ip_address, timestamp)
+        VALUES ($1, $2, $3, $4)
+      `, [page, userAgent, req.ip, timestamp || new Date()]);
+      res.json({ success: true });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Analytics error:', error);
+    res.status(500).json({ error: 'Failed to track view' });
+  }
+});
 
 // API Routes
 app.get('/api/portfolio', async (req, res) => {

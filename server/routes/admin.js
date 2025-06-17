@@ -72,6 +72,42 @@ router.post('/logout', (req, res) => {
   res.json({ success: true });
 });
 
+// Export all data
+router.get('/export', requireAuth, async (req, res) => {
+  try {
+    const client = await pool.connect();
+    try {
+      const hero = await client.query('SELECT * FROM hero_info ORDER BY id DESC LIMIT 1');
+      const stats = await client.query('SELECT * FROM hero_stats ORDER BY sort_order');
+      const about = await client.query('SELECT * FROM about_info ORDER BY id DESC LIMIT 1');
+      const projects = await client.query('SELECT * FROM projects ORDER BY sort_order');
+      const skills = await client.query('SELECT * FROM skills ORDER BY category, sort_order');
+      const education = await client.query('SELECT * FROM education ORDER BY sort_order');
+      const contact = await client.query('SELECT * FROM contact_info ORDER BY id DESC LIMIT 1');
+
+      const exportData = {
+        hero: hero.rows[0] || {},
+        stats: stats.rows,
+        about: about.rows[0] || {},
+        projects: projects.rows,
+        skills: skills.rows,
+        education: education.rows,
+        contact: contact.rows[0] || {},
+        exportDate: new Date().toISOString()
+      };
+
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Content-Disposition', 'attachment; filename=portfolio-backup.json');
+      res.json(exportData);
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Export error:', error);
+    res.status(500).json({ error: 'Failed to export data' });
+  }
+});
+
 // Get all tables data
 router.get('/data', requireAuth, async (req, res) => {
   try {
@@ -464,6 +500,38 @@ router.delete('/education/:id', requireAuth, async (req, res) => {
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Failed to delete education' });
+  }
+});
+
+// Contact messages endpoint
+router.get('/messages', requireAuth, async (req, res) => {
+  try {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM contact_messages ORDER BY created_at DESC');
+      res.json(result.rows);
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to fetch messages' });
+  }
+});
+
+router.delete('/messages/:id', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const client = await pool.connect();
+    try {
+      await client.query('DELETE FROM contact_messages WHERE id = $1', [id]);
+      res.json({ success: true });
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to delete message' });
   }
 });
 
