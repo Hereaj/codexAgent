@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './Admin.css';
 
@@ -18,10 +17,39 @@ const Admin = () => {
   const [loginError, setLoginError] = useState('');
 
   useEffect(() => {
-    if (sessionId) {
-      checkAuth();
-    }
-  }, [sessionId]);
+    const validateSession = async () => {
+      const storedSessionId = localStorage.getItem('adminSession');
+      console.log('Validating session on component mount:', storedSessionId);
+
+      if (storedSessionId) {
+        setSessionId(storedSessionId);
+        try {
+          const response = await fetch('/api/admin/data', {
+            headers: {
+              'X-Session-Id': storedSessionId
+            }
+          });
+
+          if (response.ok) {
+            setIsLoggedIn(true);
+            await checkAuth();
+          } else {
+            console.log('Session validation failed, clearing stored session');
+            localStorage.removeItem('adminSession');
+            setSessionId(null);
+            setIsLoggedIn(false);
+          }
+        } catch (error) {
+          console.error('Session validation error:', error);
+          localStorage.removeItem('adminSession');
+          setSessionId(null);
+          setIsLoggedIn(false);
+        }
+      }
+    };
+
+    validateSession();
+  }, []);
 
   const checkAuth = async () => {
     try {
@@ -30,7 +58,7 @@ const Admin = () => {
           'X-Session-Id': sessionId
         }
       });
-      
+
       if (response.ok) {
         setIsLoggedIn(true);
         const adminData = await response.json();
@@ -61,16 +89,20 @@ const Admin = () => {
       });
 
       const result = await response.json();
+      console.log('Login response:', result);
 
-      if (result.success) {
-        setSessionId(result.sessionId);
+      if (result.success && result.sessionId) {
+        console.log('Login successful, storing session:', result.sessionId);
         localStorage.setItem('adminSession', result.sessionId);
+        setSessionId(result.sessionId);
         setIsLoggedIn(true);
         await checkAuth();
+        console.log('Session stored and data fetched successfully');
       } else {
         setLoginError(result.error || 'Login failed');
       }
     } catch (error) {
+      console.error('Login error:', error);
       setLoginError('Network error occurred');
     } finally {
       setLoading(false);
@@ -99,12 +131,12 @@ const Admin = () => {
     try {
       console.log('Updating hero with data:', heroData);
       console.log('Using session ID:', sessionId);
-      
+
       if (!sessionId) {
         console.error('No session ID available');
         return { success: false, error: 'Session expired. Please log in again.' };
       }
-      
+
       const response = await fetch('/api/admin/hero', {
         method: 'PUT',
         headers: {
@@ -116,7 +148,7 @@ const Admin = () => {
 
       const result = await response.json();
       console.log('Hero update response:', result);
-      
+
       if (response.ok && result.success) {
         await checkAuth(); // Refresh data
         return { success: true, message: result.message || 'Hero info updated successfully!' };
@@ -133,12 +165,12 @@ const Admin = () => {
     try {
       console.log('Updating about with data:', aboutData);
       console.log('Using session ID:', sessionId);
-      
+
       if (!sessionId) {
         console.error('No session ID available');
         return { success: false, error: 'Session expired. Please log in again.' };
       }
-      
+
       const response = await fetch('/api/admin/about', {
         method: 'PUT',
         headers: {
@@ -150,7 +182,7 @@ const Admin = () => {
 
       const result = await response.json();
       console.log('About update response:', result);
-      
+
       if (response.ok && result.success) {
         await checkAuth(); // Refresh data
         return { success: true, message: result.message || 'About info updated successfully!' };
@@ -187,12 +219,12 @@ const Admin = () => {
                 required
               />
             </div>
-            {loginError && <div className="error-message">{loginError}</div>}
+            {loginError && <div className="error-message">{typeof loginError === 'object' ? JSON.stringify(loginError) : loginError}</div>}
             <button type="submit" disabled={loading}>
               {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
-          
+
         </div>
       </div>
     );
@@ -438,15 +470,15 @@ const HeroEditor = ({ hero, stats, onUpdate }) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-    
+
     const result = await onUpdate(formData);
-    
+
     if (result.success) {
       setMessage({ type: 'success', text: result.message });
     } else {
       setMessage({ type: 'error', text: result.error });
     }
-    
+
     setLoading(false);
   };
 
@@ -501,15 +533,15 @@ const AboutEditor = ({ about, onUpdate }) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
-    
+
     const result = await onUpdate({ content });
-    
+
     if (result.success) {
       setMessage({ type: 'success', text: result.message });
     } else {
       setMessage({ type: 'error', text: result.error });
     }
-    
+
     setLoading(false);
   };
 
@@ -627,7 +659,7 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
     isCurrentStudy: project?.is_current_study || false,
     sortOrder: project?.sort_order || 0
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -699,7 +731,7 @@ const ProjectForm = ({ project, sessionId, onSuccess, onCancel }) => {
               required
             />
           </div>
-          
+
           <div className="form-group">
             <label>Link:</label>
             <input
@@ -842,7 +874,7 @@ const SkillForm = ({ skill, sessionId, onSuccess, onCancel }) => {
     level: skill?.level || '',
     sortOrder: skill?.sort_order || 0
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -1042,7 +1074,7 @@ const EducationForm = ({ education, sessionId, onSuccess, onCancel }) => {
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
+'Content-Type': 'application/json',
           'X-Session-Id': sessionId
         },
         body: JSON.stringify(formData)

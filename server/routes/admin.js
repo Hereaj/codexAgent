@@ -11,12 +11,19 @@ const requireAuth = (req, res, next) => {
   const sessionId = req.headers['x-session-id'];
   console.log('Auth check - Session ID:', sessionId);
   console.log('Available sessions:', Array.from(sessions.keys()));
+  console.log('Session exists:', sessions.has(sessionId));
   
-  if (!sessionId || !sessions.has(sessionId)) {
-    console.log('Authentication failed');
-    return res.status(401).json({ error: 'Authentication required' });
+  if (!sessionId) {
+    console.log('Authentication failed: No session ID provided');
+    return res.status(401).json({ error: 'Authentication required: No session ID' });
   }
-  console.log('Authentication successful');
+  
+  if (!sessions.has(sessionId)) {
+    console.log('Authentication failed: Invalid session ID');
+    return res.status(401).json({ error: 'Authentication required: Invalid session' });
+  }
+  
+  console.log('Authentication successful for session:', sessionId);
   next();
 };
 
