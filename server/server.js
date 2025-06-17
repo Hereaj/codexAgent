@@ -30,20 +30,7 @@ const parseTechnologies = (technologies) => {
 app.use(cors());
 app.use(express.json());
 
-// Session middleware for admin routes
-app.use('/api/admin', (req, res, next) => {
-  // Allow login and logout without authentication
-  if (req.path === '/login' || req.path === '/logout') {
-    return next();
-  }
-  
-  const sessionId = req.headers['x-session-id'];
-  if (!sessionId) {
-    return res.status(401).json({ error: 'Authentication required' });
-  }
-  
-  next();
-});
+// Admin routes handle their own authentication
 
 // Initialize database on startup
 initializeDatabase().catch(console.error);

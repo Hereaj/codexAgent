@@ -9,9 +9,14 @@ const loginAttempts = new Map();
 // Middleware to check if user is authenticated
 const requireAuth = (req, res, next) => {
   const sessionId = req.headers['x-session-id'];
+  console.log('Auth check - Session ID:', sessionId);
+  console.log('Available sessions:', Array.from(sessions.keys()));
+  
   if (!sessionId || !sessions.has(sessionId)) {
+    console.log('Authentication failed');
     return res.status(401).json({ error: 'Authentication required' });
   }
+  console.log('Authentication successful');
   next();
 };
 
@@ -97,10 +102,22 @@ router.put('/hero', requireAuth, async (req, res) => {
     const { name, title, description } = req.body;
     const client = await pool.connect();
     try {
-      await client.query(`
-        UPDATE hero_info SET name = $1, title = $2, description = $3, updated_at = CURRENT_TIMESTAMP
-        WHERE id = (SELECT id FROM hero_info ORDER BY id DESC LIMIT 1)
-      `, [name, title, description]);
+      // Check if hero record exists
+      const existingHero = await client.query('SELECT id FROM hero_info ORDER BY id DESC LIMIT 1');
+      
+      if (existingHero.rows.length > 0) {
+        // Update existing record
+        await client.query(`
+          UPDATE hero_info SET name = $1, title = $2, description = $3, updated_at = CURRENT_TIMESTAMP
+          WHERE id = $4
+        `, [name, title, description, existingHero.rows[0].id]);
+      } else {
+        // Insert new record if none exists
+        await client.query(`
+          INSERT INTO hero_info (name, title, description) VALUES ($1, $2, $3)
+        `, [name, title, description]);
+      }
+      
       res.json({ success: true, message: 'Hero info updated successfully' });
     } finally {
       client.release();
@@ -117,10 +134,22 @@ router.put('/about', requireAuth, async (req, res) => {
     const { content } = req.body;
     const client = await pool.connect();
     try {
-      await client.query(`
-        UPDATE about_info SET content = $1, updated_at = CURRENT_TIMESTAMP
-        WHERE id = (SELECT id FROM about_info ORDER BY id DESC LIMIT 1)
-      `, [content]);
+      // Check if about record exists
+      const existingAbout = await client.query('SELECT id FROM about_info ORDER BY id DESC LIMIT 1');
+      
+      if (existingAbout.rows.length > 0) {
+        // Update existing record
+        await client.query(`
+          UPDATE about_info SET content = $1, updated_at = CURRENT_TIMESTAMP
+          WHERE id = $2
+        `, [content, existingAbout.rows[0].id]);
+      } else {
+        // Insert new record if none exists
+        await client.query(`
+          INSERT INTO about_info (content) VALUES ($1)
+        `, [content]);
+      }
+      
       res.json({ success: true, message: 'About info updated successfully' });
     } finally {
       client.release();
