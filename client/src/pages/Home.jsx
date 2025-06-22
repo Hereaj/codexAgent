@@ -24,11 +24,14 @@ const Home = () => {
         <StatsSection stats={data.hero.stats} />
         <AboutSection about={data.about} />
         <ProjectsSection 
-          currentStudies={data.currentStudies} 
           projects={data.projects} 
         />
         <SkillsSection skills={data.skills} />
         <EducationSection education={data.education} />
+        <ProjectsSection 
+          currentStudies={data.currentStudies} 
+          showCurrentStudiesOnly={true}
+        />
         <ContactSection contact={data.contact} />
       </div>
     </div>
