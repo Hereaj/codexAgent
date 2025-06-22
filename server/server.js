@@ -41,8 +41,8 @@ initializeDatabase().then(async () => {
     try {
       await client.query(`
         UPDATE projects 
-        SET link = '/attached_assets/DL_project_Final_ppt_1750576293622.pptx'
-        WHERE title = 'LipNet with Self-Attention' AND link != '/attached_assets/DL_project_Final_ppt_1750576293622.pptx'
+        SET link = '/attached_assets/DL_project_Final_ppt_1750576563453.pdf'
+        WHERE title = 'LipNet with Self-Attention' AND link != '/attached_assets/DL_project_Final_ppt_1750576563453.pdf'
       `);
       console.log('Updated LipNet project link to use uploaded file');
     } finally {
