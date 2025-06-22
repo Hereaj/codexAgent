@@ -30,9 +30,10 @@
 }
 
 .stat-label {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   font-weight: 500;
   font-size: 0.9rem;
+  opacity: 0.75;
 }
 
 /* Mobile responsive */

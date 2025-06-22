@@ -62,10 +62,11 @@
 }
 
 .project-description {
-  color: var(--text-secondary);
+  color: var(--text-primary);
   line-height: 1.7;
   margin-bottom: var(--space-lg);
   font-size: 0.95rem;
+  opacity: 0.8;
 }
 
 .project-tech {
