@@ -1,62 +1,53 @@
+
 :root {
-  /* Light theme colors - Brighter and more vibrant */
-  --primary-color: #ff6b35;
-  --secondary-color: #f7931e;
-  --accent-color: #ffd23f;
-  --success-color: #06ffa5;
-  --warning-color: #ffb800;
-  --error-color: #ff4757;
-
-  /* Text colors */
-  --text-primary: #2d3436;
-  --text-secondary: #636e72;
-  --text-muted: #b2bec3;
-
-  /* Background colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #ffeaa7;
-  --bg-tertiary: #fab1a0;
-
-  /* Border and surface colors */
-  --border-color: #fd79a8;
-  --surface-color: #ffffff;
-  --glass-bg: rgba(255, 107, 53, 0.15);
-
-  /* Gradients - Much brighter and more colorful */
-  --gradient-bg: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ffd23f 50%, #06ffa5 75%, #74b9ff 100%);
-  --gradient-text: linear-gradient(135deg, #ff6b35 0%, #e84393 50%, #74b9ff 100%);
-  --gradient-card: linear-gradient(145deg, rgba(255,107,53,0.2), rgba(247,147,30,0.1));
+  /* Light theme colors */
+  --primary-color: #2563eb;
+  --secondary-color: #1e40af;
+  --accent-color: #06b6d4;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --background-light: #f8fafc;
+  --surface-light: #ffffff;
+  --border-color: #e5e7eb;
+  --success-color: #10b981;
+  
+  /* Enhanced gradients */
+  --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+  --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+  --gradient-text: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  /* Glass-morphism effects */
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --backdrop-blur: blur(16px);
+  
+  /* Enhanced shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  /* Spacing system */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
 }
 
 /* Dark theme */
 [data-theme="dark"] {
-  /* Dark theme colors - Brighter and more neon-like */
-  --primary-color: #ff3838;
-  --secondary-color: #ff9f43;
-  --accent-color: #feca57;
-  --success-color: #1dd1a1;
-  --warning-color: #feca57;
-  --error-color: #ff3838;
-
-  /* Text colors */
-  --text-primary: #ffffff;
-  --text-secondary: #dfe6e9;
-  --text-muted: #b2bec3;
-
-  /* Background colors */
-  --bg-primary: #2d3436;
-  --bg-secondary: #636e72;
-  --bg-tertiary: #74b9ff;
-
-  /* Border and surface colors */
-  --border-color: #fd79a8;
-  --surface-color: #2d3436;
-  --glass-bg: rgba(255, 56, 56, 0.15);
-
-  /* Gradients - Bright neon-style gradients */
-  --gradient-bg: linear-gradient(135deg, #ff3838 0%, #ff9f43 25%, #feca57 50%, #1dd1a1 75%, #74b9ff 100%);
-  --gradient-text: linear-gradient(135deg, #ff3838 0%, #fd79a8 50%, #74b9ff 100%);
-  --gradient-card: linear-gradient(145deg, rgba(255,56,56,0.2), rgba(255,159,67,0.1));
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --background-light: #0f172a;
+  --surface-light: #1e293b;
+  --border-color: #334155;
+  --glass-bg: rgba(30, 41, 59, 0.4);
+  --glass-border: rgba(148, 163, 184, 0.1);
+  --gradient-card: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%);
 }
 
 /* Reset and base styles */
