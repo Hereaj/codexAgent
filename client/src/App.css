@@ -1,18 +1,22 @@
 
 .App {
   min-height: 100vh;
+  background: var(--background-light);
+  transition: background-color 0.3s ease;
 }
 
-/* Mobile-first responsive grid */
+/* Enhanced mobile-first responsive grid */
 .grid {
   display: grid;
-  gap: 1rem;
+  gap: var(--space-md);
   grid-template-columns: 1fr;
+  width: 100%;
 }
 
-@media (min-width: 768px) {
+/* Small screens (640px+) */
+@media (min-width: 640px) {
   .grid {
-    gap: 1.5rem;
+    gap: var(--space-lg);
   }
   
   .grid-2 {
@@ -20,9 +24,17 @@
   }
 }
 
+/* Medium screens (768px+) */
+@media (min-width: 768px) {
+  .grid {
+    gap: var(--space-xl);
+  }
+}
+
+/* Large screens (1024px+) */
 @media (min-width: 1024px) {
   .grid {
-    gap: 2rem;
+    gap: var(--space-2xl);
   }
   
   .grid-3 {
@@ -32,13 +44,152 @@
   .grid-4 {
     grid-template-columns: repeat(4, 1fr);
   }
+  
+  /* Auto-fit for project cards */
+  .projects-grid.grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
 }
 
-/* Utility classes */
+/* Extra large screens (1280px+) */
+@media (min-width: 1280px) {
+  .projects-grid.grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+}
+
+/* Enhanced utility classes */
 .text-center { text-align: center; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-8 { margin-bottom: 2rem; }
-.mb-12 { margin-bottom: 3rem; }
-.mt-4 { margin-top: 1rem; }
-.mt-8 { margin-top: 2rem; }
-.mt-12 { margin-top: 3rem; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* Spacing utilities */
+.mb-4 { margin-bottom: var(--space-md); }
+.mb-8 { margin-bottom: var(--space-xl); }
+.mb-12 { margin-bottom: var(--space-2xl); }
+.mt-4 { margin-top: var(--space-md); }
+.mt-8 { margin-top: var(--space-xl); }
+.mt-12 { margin-top: var(--space-2xl); }
+
+.p-4 { padding: var(--space-md); }
+.p-8 { padding: var(--space-xl); }
+.px-4 { padding-left: var(--space-md); padding-right: var(--space-md); }
+.py-4 { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+
+/* Flexbox utilities */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-4 { gap: var(--space-md); }
+.gap-8 { gap: var(--space-xl); }
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Glass-morphism card base */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+}
+
+/* Enhanced responsive images */
+.responsive-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Better button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  min-height: 44px;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Enhanced responsive typography */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-base { font-size: 1rem; }
+.text-lg { font-size: 1.125rem; }
+.text-xl { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-4xl { font-size: 2.25rem; }
+
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
