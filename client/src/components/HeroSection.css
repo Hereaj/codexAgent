@@ -6,7 +6,10 @@
   text-align: center;
   margin-bottom: 3rem;
   border-radius: 1.25rem;
-  box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 20px 40px rgba(255, 107, 53, 0.3),
+    0 10px 20px rgba(247, 147, 30, 0.2);
+  border: 2px solid var(--accent-color);
 }
 
 .hero-title {
