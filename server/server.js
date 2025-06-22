@@ -34,7 +34,24 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Admin routes handle their own authentication
 
 // Initialize database on startup
-initializeDatabase().catch(console.error);
+initializeDatabase().then(async () => {
+  // Update LipNet project link if it exists
+  try {
+    const client = await pool.connect();
+    try {
+      await client.query(`
+        UPDATE projects 
+        SET link = '/attached_assets/DL_project_Final_ppt_1750576293622.pptx'
+        WHERE title = 'LipNet with Self-Attention' AND link != '/attached_assets/DL_project_Final_ppt_1750576293622.pptx'
+      `);
+      console.log('Updated LipNet project link to use uploaded file');
+    } finally {
+      client.release();
+    }
+  } catch (error) {
+    console.error('Error updating LipNet project link:', error);
+  }
+}).catch(console.error);
 
 // Serve static files from React build
 const clientDistPath = process.env.NODE_ENV === 'production' 
