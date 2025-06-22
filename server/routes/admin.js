@@ -6,6 +6,16 @@ const router = express.Router();
 const sessions = new Map();
 const loginAttempts = new Map();
 
+// Clear old login attempts every 5 minutes
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, attempts] of loginAttempts.entries()) {
+    if (now - attempts.lastAttempt > 300000) { // 5 minutes
+      loginAttempts.delete(ip);
+    }
+  }
+}, 300000);
+
 // Middleware to check if user is authenticated
 const requireAuth = (req, res, next) => {
   const sessionId = req.headers['x-session-id'];
@@ -34,13 +44,24 @@ router.post('/login', async (req, res) => {
 
   // Basic rate limiting - max 5 attempts per IP per 15 minutes
   const attempts = loginAttempts.get(clientIP) || { count: 0, lastAttempt: Date.now() };
-  if (attempts.count >= 5 && Date.now() - attempts.lastAttempt < 900000) {
-    return res.status(429).json({ error: 'Too many login attempts. Please try again later.' });
+  
+  // Reset attempts if more than 15 minutes have passed
+  if (Date.now() - attempts.lastAttempt > 900000) {
+    attempts.count = 0;
+  }
+  
+  if (attempts.count >= 5) {
+    return res.status(429).json({ error: 'Too many login attempts. Please try again in 15 minutes.' });
   }
 
   // Use environment variables for credentials
   const adminUsername = process.env.ADMIN_USERNAME || 'admin';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+
+  console.log(`Login attempt for username: "${username}"`);
+  console.log(`Expected username: "${adminUsername}"`);
+  console.log(`Password provided: ${password ? '[PROVIDED]' : '[MISSING]'}`);
+  console.log(`Expected password: ${adminPassword ? '[SET]' : '[NOT SET]'}`);
 
   if (username === adminUsername && password === adminPassword) {
     // Reset attempts on successful login
@@ -52,6 +73,7 @@ router.post('/login', async (req, res) => {
     // Auto-expire sessions after 30 minutes for security
     setTimeout(() => sessions.delete(sessionId), 1800000);
 
+    console.log(`Login successful for ${username}, session: ${sessionId}`);
     res.json({ success: true, sessionId });
   } else {
     // Track failed attempts
@@ -59,6 +81,7 @@ router.post('/login', async (req, res) => {
     attempts.lastAttempt = Date.now();
     loginAttempts.set(clientIP, attempts);
 
+    console.log(`Login failed for ${username}. Attempts: ${attempts.count}`);
     res.status(401).json({ error: 'Invalid credentials' });
   }
 });
@@ -70,6 +93,13 @@ router.post('/logout', (req, res) => {
     sessions.delete(sessionId);
   }
   res.json({ success: true });
+});
+
+// Clear rate limits (temporary endpoint for debugging)
+router.post('/clear-limits', (req, res) => {
+  loginAttempts.clear();
+  sessions.clear();
+  res.json({ success: true, message: 'Rate limits and sessions cleared' });
 });
 
 // Export all data
