@@ -105,17 +105,8 @@
   position: relative;
 }
 
-.project-link::after {
-  content: '→';
-  transition: transform 0.3s ease;
-}
-
 .project-link:hover {
   color: var(--accent-color);
-}
-
-.project-link:hover::after {
-  transform: translateX(4px);
 }
 
 /* Enhanced mobile responsiveness */
