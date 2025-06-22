@@ -42,6 +42,9 @@ const clientDistPath = process.env.NODE_ENV === 'production'
   : path.join(__dirname, '../client/dist');
 app.use(express.static(clientDistPath));
 
+// Serve attached assets (PDFs, images, etc.)
+app.use('/attached_assets', express.static(path.join(__dirname, '../attached_assets')));
+
 // Admin routes
 const adminRoutes = require('./routes/admin');
 app.use('/api/admin', adminRoutes);
