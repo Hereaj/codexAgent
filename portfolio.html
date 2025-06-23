@@ -1,0 +1,884 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaehyeon Ahn - Portfolio</title>
+    <meta name="description" content="Computer Science student at UW specializing in Data Science, Machine Learning, and Database Systems. Passionate about building innovative solutions.">
+    <meta name="keywords" content="Computer Science, Data Science, Machine Learning, Database Systems, UW, Portfolio">
+    <meta name="author" content="Jaehyeon Ahn">
+    <meta property="og:title" content="Jaehyeon Ahn - Portfolio">
+    <meta property="og:description" content="Computer Science student specializing in Data Science and Machine Learning">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jaehyeon Ahn - Portfolio">
+    <meta name="twitter:description" content="Computer Science student specializing in Data Science and Machine Learning">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --primary-color: #2563eb;
+          --secondary-color: #1e40af;
+          --accent-color: #06b6d4;
+          --text-primary: #111827;
+          --text-secondary: #374151;
+          --background-light: #f8fafc;
+          --surface-light: #ffffff;
+          --border-color: #e5e7eb;
+          --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+          --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+          --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+          --space-xs: 0.25rem;
+          --space-sm: 0.5rem;
+          --space-md: 1rem;
+          --space-lg: 1.5rem;
+          --space-xl: 2rem;
+          --space-2xl: 3rem;
+          --space-3xl: 4rem;
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          line-height: 1.6;
+          color: var(--text-primary);
+          background-color: var(--background-light);
+          font-size: 16px;
+        }
+
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 2rem;
+        }
+
+        /* Grid System */
+        .grid {
+          display: grid;
+          gap: var(--space-lg);
+        }
+
+        .grid-2 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .grid-4 {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        /* Section Headers */
+        .section-header {
+          text-align: center;
+          margin-bottom: var(--space-3xl);
+        }
+
+        .section-title {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin-bottom: var(--space-md);
+          line-height: 1.2;
+        }
+
+        .section-subtitle {
+          font-size: 1.125rem;
+          color: var(--text-secondary);
+          max-width: 600px;
+          margin: 0 auto;
+          line-height: 1.7;
+        }
+
+        /* Hero Section */
+        .hero-section {
+          background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+          color: white;
+          padding: var(--space-3xl) 0;
+          text-align: center;
+          min-height: 80vh;
+          display: flex;
+          align-items: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .hero-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)" /></svg>');
+          opacity: 0.3;
+        }
+
+        .hero-content {
+          position: relative;
+          z-index: 1;
+        }
+
+        .hero-name {
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 800;
+          margin-bottom: var(--space-md);
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-title {
+          font-size: clamp(1.25rem, 3vw, 1.5rem);
+          font-weight: 600;
+          margin-bottom: var(--space-lg);
+          opacity: 0.95;
+        }
+
+        .hero-description {
+          font-size: clamp(1rem, 2vw, 1.125rem);
+          max-width: 600px;
+          margin: 0 auto;
+          opacity: 0.9;
+          line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats-section {
+          padding: var(--space-3xl) 0;
+          background-color: var(--surface-light);
+        }
+
+        .stats-grid {
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .stat-card {
+          text-align: center;
+          padding: var(--space-xl);
+          background: var(--surface-light);
+          border-radius: 12px;
+          box-shadow: var(--shadow-md);
+          border: 1px solid var(--border-color);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+          display: block;
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: var(--primary-color);
+          margin-bottom: var(--space-sm);
+        }
+
+        .stat-label {
+          color: var(--text-primary);
+          font-weight: 500;
+          font-size: 0.9rem;
+          opacity: 0.75;
+        }
+
+        /* About Section */
+        .about-section {
+          padding: var(--space-3xl) 0;
+          background-color: var(--background-light);
+        }
+
+        /* Projects Section */
+        .projects-section {
+          padding: var(--space-3xl) 0;
+          background-color: var(--surface-light);
+        }
+
+        .current-studies-section {
+          padding: var(--space-3xl) 0;
+          background-color: var(--background-light);
+        }
+
+        .projects-grid {
+          margin-top: var(--space-2xl);
+        }
+
+        .project-card {
+          background: var(--surface-light);
+          border-radius: 16px;
+          padding: var(--space-xl);
+          box-shadow: var(--shadow-md);
+          border: 1px solid var(--border-color);
+          transition: all 0.3s ease;
+          height: 100%;
+        }
+
+        .project-card:hover {
+          transform: translateY(-8px);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .project-content {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .project-category {
+          display: inline-block;
+          background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+          color: white;
+          padding: var(--space-xs) var(--space-md);
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: var(--space-lg);
+          align-self: flex-start;
+        }
+
+        .project-title {
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin-bottom: var(--space-md);
+          line-height: 1.3;
+        }
+
+        .project-description {
+          color: var(--text-primary);
+          line-height: 1.7;
+          margin-bottom: var(--space-lg);
+          font-size: 0.95rem;
+          opacity: 0.8;
+          flex-grow: 1;
+        }
+
+        .project-tech {
+          display: flex;
+          flex-wrap: wrap;
+          gap: var(--space-sm);
+          margin-bottom: var(--space-lg);
+        }
+
+        .tech-tag {
+          background: var(--background-light);
+          color: var(--text-secondary);
+          padding: var(--space-xs) var(--space-sm);
+          border-radius: 6px;
+          font-size: 0.8rem;
+          font-weight: 500;
+          border: 1px solid var(--border-color);
+        }
+
+        .project-link {
+          color: var(--primary-color);
+          text-decoration: none;
+          font-weight: 600;
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-xs);
+          transition: color 0.3s ease;
+          position: relative;
+        }
+
+        .project-link:hover {
+          color: var(--accent-color);
+        }
+
+        /* Skills Section */
+        .skills-section {
+          padding: var(--space-3xl) 0;
+          background-color: var(--background-light);
+        }
+
+        .skills-categories {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: var(--space-xl);
+          margin-top: var(--space-2xl);
+        }
+
+        .skill-category {
+          background: var(--surface-light);
+          border-radius: 16px;
+          padding: var(--space-xl);
+          box-shadow: var(--shadow-md);
+          border: 1px solid var(--border-color);
+        }
+
+        .skill-category-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin-bottom: var(--space-lg);
+          text-align: center;
+        }
+
+        .skills-list {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-md);
+        }
+
+        .skill-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: var(--space-sm) 0;
+        }
+
+        .skill-name {
+          font-weight: 600;
+          color: var(--text-primary);
+        }
+
+        .skill-level {
+          background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+          color: white;
+          padding: var(--space-xs) var(--space-sm);
+          border-radius: 12px;
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+
+        /* Education Section */
+        .education-section {
+          padding: var(--space-3xl) 0;
+          background-color: var(--surface-light);
+        }
+
+        .education-timeline {
+          max-width: 800px;
+          margin: 0 auto;
+          position: relative;
+        }
+
+        .education-timeline::before {
+          content: '';
+          position: absolute;
+          left: 2rem;
+          top: 0;
+          bottom: 0;
+          width: 2px;
+          background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+        }
+
+        .education-item {
+          position: relative;
+          margin-bottom: var(--space-2xl);
+          padding-left: 5rem;
+        }
+
+        .education-item::before {
+          content: '';
+          position: absolute;
+          left: 1.25rem;
+          top: 0.5rem;
+          width: 1.5rem;
+          height: 1.5rem;
+          background: var(--primary-color);
+          border-radius: 50%;
+          border: 4px solid var(--surface-light);
+        }
+
+        .education-date {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: var(--accent-color);
+          margin-bottom: var(--space-sm);
+        }
+
+        .education-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin-bottom: var(--space-sm);
+        }
+
+        .education-description {
+          color: var(--text-secondary);
+          line-height: 1.7;
+        }
+
+        /* Contact Section */
+        .contact-section {
+          background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+          color: white;
+          padding: var(--space-3xl) 0;
+          text-align: center;
+        }
+
+        .contact-section .section-title {
+          color: white;
+          margin-bottom: 1rem;
+          font-size: 3rem;
+          font-weight: 800;
+          text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+          letter-spacing: -0.02em;
+        }
+
+        .contact-section .section-subtitle {
+          color: rgba(255, 255, 255, 0.9);
+          margin-bottom: var(--space-2xl);
+        }
+
+        .contact-links {
+          display: flex;
+          justify-content: center;
+          gap: var(--space-xl);
+          flex-wrap: wrap;
+        }
+
+        .contact-link {
+          display: flex;
+          align-items: center;
+          gap: var(--space-sm);
+          color: white;
+          text-decoration: none;
+          padding: var(--space-md) var(--space-lg);
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+          .container {
+            padding: 0 1rem;
+          }
+
+          .grid-2, .grid-3, .grid-4 {
+            grid-template-columns: 1fr;
+          }
+
+          .hero-section {
+            padding: 3rem 0;
+          }
+
+          .section-title {
+            font-size: 2rem;
+          }
+
+          .contact-section .section-title {
+            font-size: 2.25rem;
+          }
+
+          .contact-links {
+            flex-direction: column;
+            align-items: center;
+          }
+
+          .contact-link {
+            width: 100%;
+            max-width: 300px;
+            justify-content: center;
+          }
+
+          .education-timeline::before {
+            left: 1rem;
+          }
+
+          .education-item {
+            padding-left: 3rem;
+          }
+
+          .education-item::before {
+            left: 0.25rem;
+          }
+        }
+
+        .loading-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-height: 60vh;
+          text-align: center;
+        }
+
+        .spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid var(--border-color);
+          border-top: 4px solid var(--primary-color);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: var(--space-md);
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Loading portfolio...</p>
+        </div>
+    </div>
+
+    <script>
+        const portfolioData = {
+            "hero": {
+                "name": "Jaehyeon (AJ) Ahn",
+                "title": "UW Computer Science Student specializing in Data Science",
+                "description": "Building ML solutions and database systems • CrossFit Coach passionate about data-driven training",
+                "stats": [
+                    { "number": "15+", "label": "Projects Completed" },
+                    { "number": "6+", "label": "Programming Languages" },
+                    { "number": "10+", "label": "CSE Courses" },
+                    { "number": "2+", "label": "Years Experience" }
+                ]
+            },
+            "about": "I'm an undergraduate at the Paul G. Allen School of Computer Science at the University of Washington, pursuing the Data Science option. I'm passionate about solving complex problems with data, building machine learning solutions, and developing robust database systems. When I'm not coding, I coach CrossFit and love analyzing training data to optimize athletic performance.",
+            "currentStudies": [
+                {
+                    "id": 1,
+                    "category": "CSE 447",
+                    "title": "Natural Language Processing",
+                    "description": "Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.",
+                    "technologies": ["Python", "PyTorch", "Transformers", "NLTK"]
+                },
+                {
+                    "id": 2,
+                    "category": "CSE 446 & CSE 493G1",
+                    "title": "Machine Learning & Deep Learning",
+                    "description": "Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.",
+                    "technologies": ["Python", "TensorFlow", "Scikit-learn", "NumPy"]
+                },
+                {
+                    "id": 3,
+                    "category": "CSE 444",
+                    "title": "Database Systems",
+                    "description": "Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.",
+                    "technologies": ["Java", "SQL", "B+ Trees", "Query Optimization"]
+                },
+                {
+                    "id": 4,
+                    "category": "CSE 331",
+                    "title": "Software Engineering",
+                    "description": "Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.",
+                    "technologies": ["TypeScript", "React", "Node.js", "Testing"]
+                }
+            ],
+            "projects": [
+                {
+                    "id": 1,
+                    "category": "ML/DL/NLP",
+                    "title": "Wizardry GPT",
+                    "description": "A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.",
+                    "technologies": ["Python", "PyTorch", "Transformers", "Hugging Face"],
+                    "link": "https://github.com/Hereaj/wizardryGPT",
+                    "linkText": "View Project"
+                },
+                {
+                    "id": 2,
+                    "category": "ML/DL/NLP",
+                    "title": "LipNet with Self-Attention",
+                    "description": "Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.",
+                    "technologies": ["Python", "TensorFlow", "Computer Vision", "Attention Mechanisms"],
+                    "link": "/attached_assets/DL_project_Final_ppt_1750576563453.pdf",
+                    "linkText": "View Project"
+                },
+                {
+                    "id": 3,
+                    "category": "Database Systems",
+                    "title": "Flight Manager Database",
+                    "description": "Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.",
+                    "technologies": ["SQL", "Database Design", "Java", "JDBC"],
+                    "link": "https://github.com/Hereaj/flightManager",
+                    "linkText": "View Project"
+                }
+            ],
+            "skills": {
+                "Programming Languages": [
+                    { "name": "Python", "level": "Expert" },
+                    { "name": "Java", "level": "Expert" },
+                    { "name": "C/C++", "level": "Advanced" },
+                    { "name": "JavaScript/TypeScript", "level": "Proficient" },
+                    { "name": "R", "level": "Proficient" }
+                ],
+                "Data & ML Technologies": [
+                    { "name": "PyTorch & TensorFlow", "level": "Advanced" },
+                    { "name": "Pandas & NumPy", "level": "Expert" },
+                    { "name": "Scikit-learn", "level": "Advanced" },
+                    { "name": "SQL & NoSQL", "level": "Expert" },
+                    { "name": "Statistical Analysis", "level": "Advanced" }
+                ],
+                "Web & Software Engineering": [
+                    { "name": "React & Node.js", "level": "Proficient" },
+                    { "name": "HTML/CSS", "level": "Proficient" },
+                    { "name": "Git & Version Control", "level": "Advanced" },
+                    { "name": "Software Testing", "level": "Advanced" },
+                    { "name": "System Design", "level": "Proficient" }
+                ]
+            },
+            "education": [
+                {
+                    "id": 1,
+                    "date": "2023 — 2025 (Expected)",
+                    "title": "University of Washington",
+                    "description": "Bachelor of Science in Computer Science with Data Science option. Relevant coursework: Machine Learning, Deep Learning, Natural Language Processing, Database Systems, Software Engineering, Data Structures & Algorithms."
+                },
+                {
+                    "id": 2,
+                    "date": "2022 — Present",
+                    "title": "CrossFit Coach @ Persistence Athletics",
+                    "description": "Lead group fitness classes for 15-20 athletes, design personalized training programs, track performance metrics, and analyze training data to optimize athlete progress and reduce injury risk."
+                },
+                {
+                    "id": 3,
+                    "date": "2022 — 2023",
+                    "title": "Bellevue College",
+                    "description": "Completed foundational computer science courses including Data Structures (CS 210), Computer Programming (CS 211), and Calculus III (MATH 208) with honors."
+                }
+            ],
+            "contact": {
+                "email": "hereaj@uw.edu",
+                "linkedin": "https://www.linkedin.com/in/hereaj/",
+                "github": "https://github.com/hereaj",
+                "location": "Seattle, WA"
+            }
+        };
+
+        function renderHeroSection(hero) {
+            return `
+                <section class="hero-section">
+                    <div class="container">
+                        <div class="hero-content">
+                            <h1 class="hero-name">${hero.name}</h1>
+                            <h2 class="hero-title">${hero.title}</h2>
+                            <p class="hero-description">${hero.description}</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderStatsSection(stats) {
+            const statsHtml = stats.map(stat => `
+                <div class="stat-card">
+                    <span class="stat-number">${stat.number}</span>
+                    <span class="stat-label">${stat.label}</span>
+                </div>
+            `).join('');
+
+            return `
+                <section class="stats-section">
+                    <div class="container">
+                        <div class="stats-grid grid grid-2 grid-4">
+                            ${statsHtml}
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderAboutSection(about) {
+            return `
+                <section class="about-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">About Me</h2>
+                            <p class="section-subtitle">${about}</p>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderProjectCard(project) {
+            const techTags = project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('');
+            const linkHtml = project.link ? `<a href="${project.link}" class="project-link" target="_blank" rel="noopener noreferrer">${project.linkText || 'View Project'} →</a>` : '';
+
+            return `
+                <div class="project-card">
+                    <div class="project-content">
+                        <span class="project-category">${project.category}</span>
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tech">${techTags}</div>
+                        ${linkHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderProjectsSection(projects) {
+            const projectsHtml = projects.map(project => renderProjectCard(project)).join('');
+
+            return `
+                <section class="projects-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">Featured Projects</h2>
+                            <p class="section-subtitle">A showcase of my work in machine learning, database systems, and web development</p>
+                        </div>
+                        <div class="projects-grid grid grid-2">
+                            ${projectsHtml}
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderCurrentStudiesSection(currentStudies) {
+            const studiesHtml = currentStudies.map(study => renderProjectCard(study)).join('');
+
+            return `
+                <section class="current-studies-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">What I'm Currently Studying</h2>
+                            <p class="section-subtitle">Current coursework and academic focus areas</p>
+                        </div>
+                        <div class="projects-grid grid grid-2">
+                            ${studiesHtml}
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderSkillsSection(skills) {
+            const categoriesHtml = Object.entries(skills).map(([category, skillList]) => {
+                const skillsHtml = skillList.map(skill => `
+                    <div class="skill-item">
+                        <span class="skill-name">${skill.name}</span>
+                        <span class="skill-level">${skill.level}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">${category}</h3>
+                        <div class="skills-list">
+                            ${skillsHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            return `
+                <section class="skills-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">Skills & Technologies</h2>
+                            <p class="section-subtitle">Technical skills and tools I use to build amazing projects</p>
+                        </div>
+                        <div class="skills-categories">
+                            ${categoriesHtml}
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderEducationSection(education) {
+            const educationHtml = education.map(item => `
+                <div class="education-item">
+                    <div class="education-date">${item.date}</div>
+                    <h3 class="education-title">${item.title}</h3>
+                    <p class="education-description">${item.description}</p>
+                </div>
+            `).join('');
+
+            return `
+                <section class="education-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">Education & Experience</h2>
+                            <p class="section-subtitle">My academic journey and professional experience</p>
+                        </div>
+                        <div class="education-timeline">
+                            ${educationHtml}
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderContactSection(contact) {
+            return `
+                <section class="contact-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <h2 class="section-title">Let's Connect</h2>
+                            <p class="section-subtitle">Ready to collaborate or discuss opportunities? Let's start a conversation about technology, data science, or machine learning!</p>
+                        </div>
+                        <div class="contact-links">
+                            <a href="mailto:${contact.email}" class="contact-link">
+                                <span>📧</span>
+                                <span>${contact.email}</span>
+                            </a>
+                            <a href="${contact.linkedin}" class="contact-link" target="_blank" rel="noopener noreferrer">
+                                <span>💼</span>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="${contact.github}" class="contact-link" target="_blank" rel="noopener noreferrer">
+                                <span>💻</span>
+                                <span>GitHub</span>
+                            </a>
+                            <div class="contact-link">
+                                <span>📍</span>
+                                <span>${contact.location}</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderPortfolio(data) {
+            return `
+                <div class="home">
+                    <div class="container">
+                        ${renderHeroSection(data.hero)}
+                        ${renderStatsSection(data.hero.stats)}
+                        ${renderAboutSection(data.about)}
+                        ${renderProjectsSection(data.projects)}
+                        ${renderCurrentStudiesSection(data.currentStudies)}
+                        ${renderSkillsSection(data.skills)}
+                        ${renderEducationSection(data.education)}
+                        ${renderContactSection(data.contact)}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize the portfolio
+        function init() {
+            const app = document.getElementById('app');
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                app.innerHTML = renderPortfolio(portfolioData);
+            }, 1000);
+        }
+
+        // Start the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
