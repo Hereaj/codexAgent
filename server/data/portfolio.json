@@ -5,13 +5,13 @@
     "title": "UW Computer Science Student specializing in Data Science",
     "description": "Building ML solutions and database systems • CrossFit Coach passionate about data-driven training",
     "stats": [
-      { "number": "15+", "label": "Projects Completed" },
-      { "number": "6+", "label": "Programming Languages" },
+      { "number": "20+", "label": "Projects Completed" },
+      { "number": "8+", "label": "Programming Languages" },
       { "number": "10+", "label": "CSE Courses" },
-      { "number": "2+", "label": "Years Experience" }
+      { "number": "3+", "label": "Years Experience" }
     ]
   },
-  "about": "I'm an undergraduate at the Paul G. Allen School of Computer Science at the University of Washington, pursuing the Data Science option. I'm passionate about solving complex problems with data, building machine learning solutions, and developing robust database systems. When I'm not coding, I coach CrossFit and love analyzing training data to optimize athletic performance.",
+  "about": "I'm an undergraduate at the Paul G. Allen School of Computer Science at the University of Washington, pursuing the Data Science option. I recently completed a Software Engineering internship at AutoStereo, where I developed full-stack applications and mobile fitness apps deployed to App Store and Google Play. I'm passionate about solving complex problems with data, building machine learning solutions, developing robust database systems, and creating innovative mobile applications. When I'm not coding, I coach CrossFit and love analyzing training data to optimize athletic performance.",
   "currentStudies": [
     {
       "id": 1,
@@ -96,6 +96,24 @@
       "technologies": ["SQL", "Database Design", "Java", "JDBC"],
       "link": "https://github.com/Hereaj/flightManager",
       "linkText": "View Project"
+    },
+    {
+      "id": 7,
+      "category": "Mobile Applications",
+      "title": "EDSO Workout Calendar",
+      "description": "Full-stack fitness application for coaches to manage programs and assign workouts to clients. Features React Native mobile app with biometric login, JWT authentication, and real-time workout tracking deployed to App Store and Google Play.",
+      "technologies": ["React Native", "Expo", "Node.js", "PostgreSQL", "JWT", "EAS CLI"],
+      "link": "#",
+      "linkText": "Professional Project"
+    },
+    {
+      "id": 8,
+      "category": "Mobile Applications", 
+      "title": "RestTap Fitness Timer",
+      "description": "React Native mobile application for tracking rest time between workout sets. Built during AutoStereo internship with focus on user experience and smooth animations.",
+      "technologies": ["React Native", "Expo", "Mobile UX", "Timer APIs"],
+      "link": "#",
+      "linkText": "Professional Project"
     }
   ],
   "skills": {
@@ -114,11 +132,19 @@
       { "name": "Statistical Analysis", "level": "Advanced" }
     ],
     "Web & Software Engineering": [
-      { "name": "React & Node.js", "level": "Proficient" },
+      { "name": "React & Node.js", "level": "Advanced" },
+      { "name": "React Native & Expo", "level": "Advanced" },
       { "name": "HTML/CSS", "level": "Proficient" },
       { "name": "Git & Version Control", "level": "Advanced" },
       { "name": "Software Testing", "level": "Advanced" },
       { "name": "System Design", "level": "Proficient" }
+    ],
+    "Mobile & Deployment": [
+      { "name": "React Native", "level": "Advanced" },
+      { "name": "Expo & EAS CLI", "level": "Advanced" },
+      { "name": "App Store Connect", "level": "Proficient" },
+      { "name": "Google Play Console", "level": "Proficient" },
+      { "name": "JWT Authentication", "level": "Advanced" }
     ]
   },
   "education": [
@@ -130,12 +156,18 @@
     },
     {
       "id": 2,
+      "date": "April — August 2025",
+      "title": "Software Engineering Intern @ AutoStereo",
+      "description": "Developed full-stack applications including EDSO workout calendar and mobile fitness apps. Built React Native applications with Expo, implemented JWT authentication, deployed to App Store and Google Play. Technologies: React Native, Expo, Node.js, PostgreSQL, AI-assisted development tools."
+    },
+    {
+      "id": 3,
       "date": "2022 — Present",
       "title": "CrossFit Coach @ Persistence Athletics",
       "description": "Lead group fitness classes for 15-20 athletes, design personalized training programs, track performance metrics, and analyze training data to optimize athlete progress and reduce injury risk."
     },
     {
-      "id": 3,
+      "id": 4,
       "date": "2022 — 2023",
       "title": "Bellevue College",
       "description": "Completed foundational computer science courses including Data Structures (CS 210), Computer Programming (CS 211), and Calculus III (MATH 208) with honors."
