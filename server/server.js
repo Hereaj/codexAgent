@@ -27,24 +27,29 @@ const parseTechnologies = (technologies) => {
 };
 
 // Trust proxy for proper HTTPS detection behind Replit's proxy
-app.set('trust proxy', 1);
+app.set('trust proxy', true);
 
 // HTTPS and canonical domain redirect middleware (production only)
 app.use((req, res, next) => {
   // Only apply redirects in production
   if (process.env.NODE_ENV === 'production') {
-    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-    const host = req.get('host');
+    const host = req.hostname.toLowerCase();
     const canonicalHost = 'www.hereaj.com';
     
-    // Redirect to HTTPS if not already
-    if (protocol !== 'https') {
-      return res.redirect(301, `https://${canonicalHost}${req.originalUrl}`);
-    }
-    
-    // Redirect to canonical www domain if not already there
-    if (host !== canonicalHost) {
-      return res.redirect(301, `https://${canonicalHost}${req.originalUrl}`);
+    // Only handle requests for hereaj.com domains
+    if (host.endsWith('hereaj.com')) {
+      // Redirect to HTTPS if not already
+      if (!req.secure) {
+        return res.redirect(301, `https://${canonicalHost}${req.originalUrl}`);
+      }
+      
+      // Redirect to canonical www domain if not already there
+      if (host !== canonicalHost) {
+        return res.redirect(301, `https://${canonicalHost}${req.originalUrl}`);
+      }
+      
+      // Add HSTS header for security
+      res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
     }
   }
   
