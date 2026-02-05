@@ -1,11 +1,37 @@
 
 .contact-section {
   background: var(--gradient-bg);
+  background-size: 200% 200%;
+  animation: gradient-shift 15s ease infinite;
   color: white;
   padding: 4rem;
   border-radius: 1.25rem;
   text-align: center;
   margin: 4rem 0;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Aurora wave overlay */
+.contact-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    var(--aurora-color-1) 0%,
+    transparent 30%,
+    var(--aurora-color-3) 50%,
+    transparent 70%,
+    var(--aurora-color-2) 100%
+  );
+  animation: aurora-wave 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .contact-section .section-title {
@@ -15,11 +41,15 @@
   font-weight: 800;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
   letter-spacing: -0.02em;
+  position: relative;
+  z-index: 2;
 }
 
 .contact-section .section-subtitle {
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .contact-links {
@@ -28,6 +58,8 @@
   gap: 1.875rem;
   margin-top: 1.875rem;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
 }
 
 .contact-link {
@@ -37,15 +69,20 @@
   color: white;
   text-decoration: none;
   padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--glass-bg-light);
+  border: 1px solid var(--glass-border-light);
   border-radius: 3.125rem;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .contact-link:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  background: var(--glass-bg-medium);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1);
+  border-color: var(--glass-border-medium);
 }
 
 /* Mobile responsive */
@@ -53,18 +90,41 @@
   .contact-section {
     padding: 3rem 2rem;
   }
-  
+
+  .contact-section::before {
+    animation-duration: 16s;
+  }
+
   .contact-section .section-title {
     font-size: 2.25rem;
   }
-  
+
   .contact-links {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
   }
-  
+
   .contact-link {
     width: fit-content;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .contact-section {
+    animation: none;
+  }
+
+  .contact-section::before {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(12px)) {
+  .contact-link {
+    background: rgba(255, 255, 255, 0.25);
   }
 }

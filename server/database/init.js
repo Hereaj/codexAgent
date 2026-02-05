@@ -134,7 +134,7 @@ async function seedDatabase(client) {
     ($1, $2, $3)
   `, [
     'Jaehyeon (AJ) Ahn',
-    'UW Computer Science Student specializing in Data Science',
+    'UW Computer Science Graduate specializing in Data Science',
     'Building ML solutions and database systems • CrossFit Coach passionate about data-driven training'
   ]);
 
@@ -155,39 +155,17 @@ async function seedDatabase(client) {
   // Insert about info
   await client.query(`
     INSERT INTO about_info (content) VALUES ($1)
-  `, [`I'm an undergraduate at the Paul G. Allen School of Computer Science at the University of Washington, pursuing the Data Science option. I'm passionate about solving complex problems with data, building machine learning solutions, and developing robust database systems. When I'm not coding, I coach CrossFit and love analyzing training data to optimize athletic performance.`]);
-
-  // Insert current studies
-  const currentStudies = [
-    ['CSE 447', 'Natural Language Processing', 'Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.', '["Python", "PyTorch", "Transformers", "NLTK"]', true, 1],
-    ['CSE 446 & CSE 493G1', 'Machine Learning & Deep Learning', 'Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.', '["Python", "TensorFlow", "Scikit-learn", "NumPy"]', true, 2],
-    ['CSE 444', 'Database Systems', 'Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.', '["Java", "SQL", "B+ Trees", "Query Optimization"]', true, 3],
-    ['CSE 331', 'Software Engineering', 'Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.', '["TypeScript", "React", "Node.js", "Testing"]', true, 4]
-  ];
-
-  // Insert projects
-  const projects = [
-    ['ML/DL/NLP', 'Wizardry GPT', 'A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.', '["Python", "PyTorch", "Transformers", "Hugging Face"]', 'https://github.com/Hereaj/wizardryGPT', 'View Project', false, 1],
-    ['ML/DL/NLP', 'LipNet with Self-Attention', 'Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.', '["Python", "TensorFlow", "Computer Vision", "Attention Mechanisms"]', '/attached_assets/DL_project_Final_ppt_1750576563453.pdf', 'View Research', false, 2],
-    ['Database Management', 'Simple DB', 'A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.', '["Java", "B+ Trees", "SQL Parser", "Buffer Management"]', 'https://github.com/Hereaj/simpleDB', 'View Project', false, 3],
-    ['Web Applications', 'Mapping Anxiety', 'Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.', '["JavaScript", "D3.js", "Data Visualization", "Statistical Analysis"]', 'https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/', 'View Live Demo', false, 4],
-    ['ML/DL/NLP', 'Self-Driving Car', 'Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.', '["Python", "OpenCV", "CNN", "Computer Vision"]', 'https://github.com/Hereaj/selfdriving', 'View Project', false, 5],
-    ['Database Management', 'Flight Manager', 'Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.', '["SQL", "Database Design", "Java", "JDBC"]', 'https://github.com/Hereaj/flightManager', 'View Project', false, 6]
-  ];
-
+  `, [`I'm a recent graduate from the Paul G. Allen School of Computer Science at the University of Washington with a Data Science specialization. I'm passionate about solving complex problems with data, building machine learning solutions, and developing robust database systems. When I'm not coding, I coach CrossFit and love analyzing training data to optimize athletic performance.`]);
 
   // Insert projects one by one to avoid SQL syntax issues
   const projectsData = [
-    ['CSE 447', 'Natural Language Processing', 'Building and training language models, exploring transformer architectures, and implementing NLP algorithms for text analysis and generation.', '["Python", "PyTorch", "Transformers", "NLTK"]', '', '', true, 1],
-    ['CSE 446 & CSE 493G1', 'Machine Learning & Deep Learning', 'Implementing ML algorithms from scratch, exploring deep learning architectures, and applying statistical learning theory to real-world problems.', '["Python", "TensorFlow", "Scikit-learn", "NumPy"]', '', '', true, 2],
-    ['CSE 444', 'Database Systems', 'Developing a simple database from scratch, implementing query optimization algorithms, and exploring distributed database architectures.', '["Java", "SQL", "B+ Trees", "Query Optimization"]', '', '', true, 3],
-    ['CSE 331', 'Software Engineering', 'Creating full-stack web applications with focus on software design patterns, testing methodologies, and scalable architecture.', '["TypeScript", "React", "Node.js", "Testing"]', '', '', true, 4],
-    ['ML/DL/NLP', 'Wizardry GPT', 'A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.', '["Python", "PyTorch", "Transformers", "Hugging Face"]', 'https://github.com/Hereaj/wizardryGPT', 'View Project', false, 1],
-    ['ML/DL/NLP', 'LipNet with Self-Attention', 'Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.', '["Python", "TensorFlow", "Computer Vision", "Attention Mechanisms"]', '/attached_assets/DL_project_Final_ppt_1750576563453.pdf', 'View Research', false, 2],
-    ['Database Management', 'Simple DB', 'A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.', '["Java", "B+ Trees", "SQL Parser", "Buffer Management"]', 'https://github.com/Hereaj/simpleDB', 'View Project', false, 3],
-    ['Web Applications', 'Mapping Anxiety', 'Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.', '["JavaScript", "D3.js", "Data Visualization", "Statistical Analysis"]', 'https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/', 'View Live Demo', false, 4],
-    ['ML/DL/NLP', 'Self-Driving Car', 'Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.', '["Python", "OpenCV", "CNN", "Computer Vision"]', 'https://github.com/Hereaj/selfdriving', 'View Project', false, 5],
-    ['Database Management', 'Flight Manager', 'Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.', '["SQL", "Database Design", "Java", "JDBC"]', 'https://github.com/Hereaj/flightManager', 'View Project', false, 6]
+    ['Full-Stack B2B Platform', 'Weedus - Cannabis B2B Platform', 'Scalable B2B commerce platform built with Next.js 14, Express.js (TypeScript), PostgreSQL (Prisma ORM). Features multi-tenant RBAC, third-party API integration with circuit breaker patterns, AI chatbot agent for natural language order management via WhatsApp/Slack, and calendar sync with Google/Microsoft APIs using AES-256-GCM encrypted credential storage.', '["Next.js", "TypeScript", "PostgreSQL", "Prisma", "LLM Integration"]', 'https://weedus.app', 'View Live', false, 1],
+    ['ML/DL/NLP', 'Wizardry GPT', 'A specialized language model fine-tuned for generating creative fantasy content, implementing transformer architecture with custom training pipeline.', '["Python", "PyTorch", "Transformers", "Hugging Face"]', 'https://github.com/Hereaj/wizardryGPT', 'View Project', false, 2],
+    ['ML/DL/NLP', 'LipNet with Self-Attention', 'Enhanced lip reading model incorporating self-attention mechanisms for improved accuracy in visual speech recognition tasks.', '["Python", "TensorFlow", "Computer Vision", "Attention Mechanisms"]', '/attached_assets/DL_project_Final_ppt_1750576563453.pdf', 'View Research', false, 3],
+    ['Database Management', 'Simple DB', 'A from-scratch implementation of a relational database system with B+ tree indexing, query optimization, and transaction management.', '["Java", "B+ Trees", "SQL Parser", "Buffer Management"]', 'https://github.com/Hereaj/simpleDB', 'View Project', false, 4],
+    ['Web Applications', 'Mapping Anxiety', 'Interactive data visualization platform analyzing anxiety patterns across demographics using D3.js and modern web technologies.', '["JavaScript", "D3.js", "Data Visualization", "Statistical Analysis"]', 'https://mapping-anxiety-visualization-cse442-24au-fp-fe684fffc99048bb7e.pages.cs.washington.edu/', 'View Live Demo', false, 5],
+    ['ML/DL/NLP', 'Self-Driving Car', 'Computer vision-based autonomous vehicle system using convolutional neural networks for lane detection and path planning.', '["Python", "OpenCV", "CNN", "Computer Vision"]', 'https://github.com/Hereaj/selfdriving', 'View Project', false, 6],
+    ['Database Management', 'Flight Manager', 'Comprehensive flight booking system with complex SQL queries, database normalization, and real-time seat availability tracking.', '["SQL", "Database Design", "Java", "JDBC"]', 'https://github.com/Hereaj/flightManager', 'View Project', false, 7]
   ];
 
   for (const [category, title, description, technologies, link, linkText, isCurrentStudy, sortOrder] of projectsData) {
@@ -232,7 +210,7 @@ async function seedDatabase(client) {
 
   // Insert education
   const educationData = [
-    ['2023 — 2025 (Expected)', 'University of Washington', 'Bachelor of Science in Computer Science with Data Science option. Relevant coursework: Machine Learning, Deep Learning, Natural Language Processing, Database Systems, Software Engineering, Data Structures & Algorithms.', 1],
+    ['2023 — 2025', 'University of Washington', 'Bachelor of Science in Computer Science with Data Science option. Relevant coursework: Machine Learning, Deep Learning, Natural Language Processing, Database Systems, Software Engineering, Data Structures & Algorithms.', 1],
     ['2022 — Present', 'CrossFit Coach @ Persistence Athletics', 'Lead group fitness classes for 15-20 athletes, design personalized training programs, track performance metrics, and analyze training data to optimize athlete progress and reduce injury risk.', 2],
     ['2022 — 2023', 'Bellevue College', 'Completed foundational computer science courses including Data Structures (CS 210), Computer Programming (CS 211), and Calculus III (MATH 208) with honors.', 3]
   ];
@@ -247,7 +225,7 @@ async function seedDatabase(client) {
   await client.query(`
     INSERT INTO contact_info (email, linkedin, github, location) VALUES ($1, $2, $3, $4)
   `, [
-    'hereaj@uw.edu',
+    'hereaj1992@gmail.com',
     'https://www.linkedin.com/in/hereaj/',
     'https://github.com/hereaj',
     'Seattle, WA'

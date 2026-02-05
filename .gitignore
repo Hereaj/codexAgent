@@ -12,6 +12,8 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+.env
+.claude/
 
 # Dependencies
 node_modules/ 

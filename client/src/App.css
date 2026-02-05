@@ -3,6 +3,85 @@
   min-height: 100vh;
   background: var(--background-light);
   transition: background-color 0.3s ease;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animated Background Blobs */
+.background-blobs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.7;
+  will-change: transform;
+}
+
+.blob-1 {
+  width: 400px;
+  height: 400px;
+  background: var(--blob-color-1);
+  top: -100px;
+  left: -100px;
+  animation: blob-float 20s ease-in-out infinite;
+}
+
+.blob-2 {
+  width: 350px;
+  height: 350px;
+  background: var(--blob-color-2);
+  top: 50%;
+  right: -100px;
+  animation: blob-float 18s ease-in-out infinite reverse;
+}
+
+.blob-3 {
+  width: 300px;
+  height: 300px;
+  background: var(--blob-color-3);
+  bottom: -50px;
+  left: 30%;
+  animation: blob-float 22s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+  .blob {
+    filter: blur(40px);
+    opacity: 0.5;
+  }
+
+  .blob-1 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .blob-2 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .blob-3 {
+    display: none;
+  }
+}
+
+/* Reduced motion - disable blob animations */
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none;
+  }
 }
 
 /* Enhanced mobile-first responsive grid */

@@ -1,41 +1,63 @@
 
 .about-section {
   margin: 4rem 0;
+  position: relative;
+  z-index: 1;
 }
 
-.section-header {
+.about-section .section-header {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.section-title {
+.about-section .section-title {
   font-size: 2rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
-.section-subtitle {
+.about-section .section-subtitle {
   font-size: 1.125rem;
   color: var(--text-secondary);
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.7;
+  padding: 1.5rem 2rem;
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  border: 1px solid var(--glass-border-light);
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
-  .section-title {
+  .about-section .section-title {
     font-size: 1.75rem;
   }
-  
-  .section-subtitle {
+
+  .about-section .section-subtitle {
     font-size: 1rem;
+    padding: 1rem 1.5rem;
   }
 }
 
 @media (min-width: 1024px) {
-  .section-title {
+  .about-section .section-title {
     font-size: 2.5rem;
+  }
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .about-section .section-subtitle {
+  background: var(--glass-bg-light);
+  border-color: var(--glass-border-light);
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(8px)) {
+  .about-section .section-subtitle {
+    background: var(--surface-light);
   }
 }

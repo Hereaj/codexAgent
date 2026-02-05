@@ -1,6 +1,8 @@
 
 .stats-section {
   margin: 3rem 0;
+  position: relative;
+  z-index: 1;
 }
 
 .stats-grid {
@@ -8,24 +10,30 @@
 }
 
 .stat-card {
-  background: white;
+  background: var(--glass-bg-medium);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 2rem;
   border-radius: 1rem;
   text-align: center;
-  box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 var(--glass-border-glow);
+  border: 1px solid var(--glass-border-medium);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .stat-card:hover {
-  transform: translateY(-0.3125rem);
-  box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15), var(--shadow-glow);
 }
 
 .stat-number {
   display: block;
   font-size: 2rem;
   font-weight: 700;
-  color: var(--primary-color);
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 0.5rem;
 }
 
@@ -40,8 +48,10 @@
 @media (max-width: 768px) {
   .stat-card {
     padding: 1.5rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
-  
+
   .stat-number {
     font-size: 1.75rem;
   }
@@ -50,5 +60,18 @@
 @media (min-width: 1024px) {
   .stat-number {
     font-size: 2.5rem;
+  }
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .stat-card {
+  background: var(--glass-bg-medium);
+  border-color: var(--glass-border-medium);
+}
+
+/* Fallback for browsers without backdrop-filter */
+@supports not (backdrop-filter: blur(16px)) {
+  .stat-card {
+    background: var(--surface-light);
   }
 }
