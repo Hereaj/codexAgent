@@ -85,9 +85,7 @@ initializeDatabase().then(async () => {
 }).catch(console.error);
 
 // Serve static files from React build
-const clientDistPath = process.env.NODE_ENV === 'production' 
-  ? path.join(__dirname, '../../client/dist')
-  : path.join(__dirname, '../client/dist');
+const clientDistPath = path.join(__dirname, '../client/dist');
 app.use(express.static(clientDistPath));
 
 // Serve attached assets (PDFs, images, etc.)
@@ -271,10 +269,7 @@ app.get('/api/education', async (req, res) => {
 
 // Serve React app for all other routes
 app.get('*', (req, res) => {
-  const indexPath = process.env.NODE_ENV === 'production'
-    ? path.join(__dirname, '../../client/dist/index.html')
-    : path.join(__dirname, '../client/dist/index.html');
-  res.sendFile(indexPath);
+  res.sendFile(path.join(clientDistPath, 'index.html'));
 });
 
 app.listen(PORT, '0.0.0.0', () => {
