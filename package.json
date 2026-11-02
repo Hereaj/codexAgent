@@ -2,14 +2,15 @@
 {
   "name": "jaehyeon-portfolio",
   "version": "1.0.0",
-  "description": "Full-stack React portfolio with Express backend",
+  "description": "Full-stack React portfolio with FastAPI backend",
   "scripts": {
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
-    "server:dev": "cd server && npm run dev",
+    "server:dev": "cd backend && .venv/bin/uvicorn main:app --reload --port 8000",
     "client:dev": "cd client && npm run dev",
     "build": "cd client && npm run build",
-    "start": "cd server && npm start",
-    "install:all": "npm install && cd client && npm install && cd ../server && npm install"
+    "start": "cd backend && .venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000",
+    "backend:setup": "cd backend && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
+    "install:all": "npm install && cd client && npm install"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

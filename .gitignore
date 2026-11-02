@@ -16,4 +16,12 @@ Thumbs.db
 .claude/
 
 # Dependencies
-node_modules/ 
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Local backups (DB dumps + secrets — never commit)
+backups/
